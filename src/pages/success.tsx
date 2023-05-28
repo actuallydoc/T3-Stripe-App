@@ -7,7 +7,7 @@ export default function Success() {
     const router = useRouter();
     //Get the session_id from the url parameter https://localhost:3000/success?session_id=cs_test_a1b2c3d4e5f6g7h8i9j0k1l2
     const sessionId = useRouter().query.session_id as string;
-    //Get the session data from the api when the router is available and ready
+    //Get the session data from the api
     const session = api.payment.getStripeSession.useQuery({
         sessionId: sessionId
     },

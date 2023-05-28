@@ -42,7 +42,7 @@ Before running the application, ensure you have the following installed on your 
 4. Configure the environment variables:
 
    ```bash
-   cp .env.local.example .env.local
+   cp .env.example .env
    ```
 
    Then, edit the `.env` file and add the required environment variables.
