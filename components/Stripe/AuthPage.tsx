@@ -11,8 +11,6 @@ import type Stripe from 'stripe';
 
 const AuthPage: React.FC = () => {
 
-    //Quantity state
-    const [quantity, setQuantity] = useState(1);
     const [cartItems, setCartItems] = useState<Stripe.Product[]>({} as Stripe.Product[]);
 
     //Get the stripe promise from the stripe context provider which gives you alot of features
@@ -65,9 +63,9 @@ const AuthPage: React.FC = () => {
                 setCartItems((prev) => prev.map((cartItem) => {
                     if (cartItem.id === item.id) {
                         return {
-                            ...cartItem,
                             //Custom quantity property added to the product type
                             quantity: cartItem?.quantity + 1,
+                            ...cartItem
                         }
                     }
                     return cartItem;
@@ -113,17 +111,9 @@ const AuthPage: React.FC = () => {
                             <div key={index} className='flex flex-col items-center justify-center w-full h-full p-4 bg-white rounded-lg shadow-lg'>
                                 <h1 className='text-xl font-bold text-gray-900'>{item.name}</h1>
                                 <p className='mt-2 text-sm text-gray-600'>{item.description}</p>
-                                <p className='mt-2 text-sm text-gray-600'>Quantity: {quantity}</p>
+                                <p className='mt-2 text-sm text-gray-600'>Quantity: 1</p>
                                 <p className='mt-2 text-sm text-gray-600'>Price: 10$</p>
-                                <div className='flex space-x-28'>
-                                    <div className=' px-3 py-2 rounded-full'>
-                                        {/* Quantity broken */}
-                                        <button onClick={() => setQuantity(quantity + 1)}>+</button>
-                                    </div>
-                                    <div>
-                                        <button onClick={() => setQuantity(quantity - 1)}>-</button>
-                                    </div>
-                                </div>
+
                                 <div>
                                     <button onClick={() => {
                                         handleAddToCart(item.default_price as string);

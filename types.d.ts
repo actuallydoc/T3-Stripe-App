@@ -3,5 +3,5 @@ export interface CartItem {
     id: string,
     name: string,
     description: string | null,
-    default_price?: string | null | Stripe.price,
+    default_price?: string | Stripe.Price | null;
 }
