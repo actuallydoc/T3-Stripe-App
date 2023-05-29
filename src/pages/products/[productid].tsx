@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { api } from '@/utils/api'
-import ProductCard from 'components/Products/ProductCard';
 export default function ProductDetails() {
 
     const router = useRouter();

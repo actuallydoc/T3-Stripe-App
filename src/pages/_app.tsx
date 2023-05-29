@@ -7,6 +7,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
 } from '@stripe/react-stripe-js';
+import Layout from "components/Layout";
 
 //Public key that will be used on the frontend
 //Your need a elements context provider from stripe to give access to the stripePromise in the components
@@ -19,7 +20,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Elements stripe={stripePromise}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+
       </Elements>
     </SessionProvider>
   );

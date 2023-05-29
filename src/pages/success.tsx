@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { api } from '@/utils/api'
 import { useRouter } from 'next/router'
 import Head from 'next/head';
+import { toast } from 'react-hot-toast';
 export default function Success() {
 
     const router = useRouter();
@@ -18,10 +19,12 @@ export default function Success() {
     useEffect(() => {
         //After the session is created and payment is done redirect the user to the order page with the order data 
         if (session.data?.email) {
-            router.push("/somewhere").catch(() => {
-                console.log("Error redirecting");
-            }
-            )
+            toast.success("Payment successful");
+            setTimeout(() => {
+                router.push(`/orders/}`).catch((err) => {
+                    toast.error(err.message as string);
+                });
+            }, 3000);
         }
     }, [session, router]);
 
@@ -35,17 +38,8 @@ export default function Success() {
             <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
                 <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
                     <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-                        Success
+                        Processing your payment ...
                     </h1>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-                        <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-                            <h3 className="text-2xl font-bold">First Steps →</h3>
-                            <div className="text-lg">
-                                Just the basics - Everything you need to know to set up your
-                                database and authentication.
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </main>
         </>

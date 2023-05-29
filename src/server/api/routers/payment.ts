@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { TypeOf, z } from "zod";
 import {
     createTRPCRouter,
     publicProcedure,
@@ -16,16 +16,48 @@ export const ShoppingCardItem = z.object({
     default_price: z.string(),
 });
 
+const label: Stripe.Checkout.SessionCreateParams.CustomField.Label = {
+    custom: "Shipping Method",
+    type: "custom",
+}
+
+const DropDownOption: Stripe.Checkout.SessionCreateParams.CustomField.Dropdown.Option[] = [{
+    label: "Standard",
+    value: "StandardShipping",
+},
+{
+    label: "Express",
+    value: "ExpressShipping",
+},
+{
+    label: "Overnight",
+    value: "OvernightShipping",
+}
+]
+
+const dropdown: Stripe.Checkout.SessionCreateParams.CustomField.Dropdown = {
+    options: DropDownOption,
+}
+
 export const paymentRouter = createTRPCRouter({
 
-    createCheckout: protectedProcedure.input(z.object({ products: ShoppingCardItem.array() })).mutation(({ input }) => {
+    createCheckout: protectedProcedure.input(z.object({ products: ShoppingCardItem.array(), email: z.string() })).mutation(({ input }) => {
+        //This is the stripe checkout session create procedure you can made a custom checkout session here with custom fields that stripe provides
         return stripe.checkout.sessions.create({
             mode: "payment",
             payment_method_types: ["card", "paypal"],
             shipping_address_collection: {
                 allowed_countries: ["SI"],
             },
-
+            custom_fields: [
+                {
+                    label: label,
+                    dropdown: dropdown,
+                    type: "dropdown",
+                    key: "shipping",
+                },
+            ],
+            customer_email: input.email,
             line_items: [
                 ...ShoppingCardItem.array().parse(input.products).map((product) => ({
                     price: product.default_price,

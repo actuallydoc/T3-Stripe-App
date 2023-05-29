@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+/*Animation for the Profile Image Click*/
+.slide-down-container {
+
+    animation: slide-down 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+
+}
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(0%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/*Ends here*/
+.gallery-container {
+    max-width: 600px;
+    /* Adjust this value as per your requirement */
+    margin: 0 auto;
+    /* Center the gallery horizontally */
+}
+
+.gallery-container .image-gallery {
+    max-height: 400px;
+    /* Adjust this value as per your requirement */
+    width: 100%;
+    margin: 0 auto;
+}
