@@ -4,6 +4,8 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import CartElement from './CartElement'
 import ProfileElement from './ProfileElement'
+import KrmilnikiElement from './KrmilnikiElement'
+import KompletiElement from './KompletiElement'
 
 const NavTabItems = [
     {
@@ -57,12 +59,20 @@ export default function Navbar() {
                     <div className="flex items-center">
                         <div className='flex pl-8'>
                             <div className="flex space-x-10 ">
-                                {NavTabItems.map((item, index) => (
-                                    <div key={index} className='p-2 rounded-xl hover:bg-sky-400 duration-300 hover:text-slate-300'>
-                                        <Link href={item.link} key={index}>{item.name}</Link>
-                                    </div>
+                                {NavTabItems.map((item, index) => {
+                                    if (item.name === "Krmilniki") {
+                                        return (
 
-                                ))}
+                                            <KrmilnikiElement key={index} item={item} />
+
+                                        )
+                                    } else if (item.name === "Kompleti") {
+                                        return <KompletiElement key={index} item={item} />
+
+
+                                    }
+                                })}
+
                             </div>
 
                         </div>
