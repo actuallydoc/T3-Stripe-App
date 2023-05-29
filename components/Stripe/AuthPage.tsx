@@ -7,6 +7,8 @@ import { api } from "@/utils/api";
 import CheckoutButton from "components/Stripe/CheckoutButton";
 import Cart from 'components/Cart/Cart';
 import type Stripe from 'stripe';
+import Image from 'next/image';
+import ProductCard from 'components/Products/ProductCard';
 
 
 const AuthPage: React.FC = () => {
@@ -45,6 +47,7 @@ const AuthPage: React.FC = () => {
         }
     }
     const handleAddToCart = (default_price: string) => {
+        console.log(default_price);
         //If the item is exists in the cart then add one to the quantity
         const item = productsData?.products.find((item) => item.default_price === default_price);
         //Find the item in the products available if the item is available then add it to the cart       
@@ -107,21 +110,7 @@ const AuthPage: React.FC = () => {
 
                 <div className='grid grid-cols-3 space-x-10'>
                     {productsData?.products.map((item, index) => (
-                        <div key={index} className='box-content w-64 h-64 hover:translate-x-2 duration-500 cursor-pointer'>
-                            <div key={index} className='flex flex-col items-center justify-center w-full h-full p-4 bg-white rounded-lg shadow-lg'>
-                                <h1 className='text-xl font-bold text-gray-900'>{item.name}</h1>
-                                <p className='mt-2 text-sm text-gray-600'>{item.description}</p>
-                                <p className='mt-2 text-sm text-gray-600'>Quantity: 1</p>
-                                <p className='mt-2 text-sm text-gray-600'>Price: 10$</p>
-
-                                <div>
-                                    <button onClick={() => {
-                                        handleAddToCart(item.default_price as string);
-                                    }} className='mt-4 bg-sky-500 px-3 py-2 rounded-full'>Add to cart</button>
-                                </div>
-
-                            </div>
-                        </div>
+                        <ProductCard key={index} item={item} handleAddToCart={handleAddToCart} />
                     ))}
                 </div>
             </div>

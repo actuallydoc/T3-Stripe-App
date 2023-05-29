@@ -6,8 +6,11 @@ await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  reactStrictMode: true,
 
+  reactStrictMode: true,
+  images: {
+    domains: ['files.stripe.com'],
+  },
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
    * out.
