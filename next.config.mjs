@@ -9,7 +9,7 @@ const config = {
 
   reactStrictMode: true,
   images: {
-    domains: ['files.stripe.com', "lh3.googleusercontent.com", "m.media-amazon.com", "si.farnell.com"],
+    domains: ['files.stripe.com', "lh3.googleusercontent.com", "m.media-amazon.com", "www.pngfind.com", "media.elektor.com"],
   },
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config

@@ -54,7 +54,7 @@ export default function Navbar() {
 
     return (
         <nav>
-            <div className="flex justify-between items-center  h-16 bg-sky-600 text-white  relative shadow-xl rounded-b-xl font-semibold " role="navigation">
+            <div className="flex justify-between items-center  h-16  text-black relative shadow-xl rounded-b-xl font-semibold " role="navigation">
                 <div>
                     <div className="flex items-center">
                         <div className='flex pl-8'>
@@ -62,13 +62,10 @@ export default function Navbar() {
                                 {NavTabItems.map((item, index) => {
                                     if (item.name === "Krmilniki") {
                                         return (
-
                                             <KrmilnikiElement key={index} item={item} />
-
                                         )
                                     } else if (item.name === "Kompleti") {
                                         return <KompletiElement key={index} item={item} />
-
 
                                     }
                                 })}
@@ -76,7 +73,6 @@ export default function Navbar() {
                             </div>
 
                         </div>
-
                     </div>
                 </div>
                 <div className="flex pr-8">

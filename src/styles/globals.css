@@ -24,6 +24,18 @@
     }
 }
 
+@keyframes slide-away {
+    0% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
 /*Ends here*/
 .gallery-container {
     max-width: 600px;
