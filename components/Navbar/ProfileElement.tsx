@@ -46,6 +46,8 @@ export default function ProfileElement({ imageLink }: { imageLink: string }) {
                                     {ProfileButtons.map((button, index) => {
                                         if (button.name === 'Odjava') {
                                             return <button onClick={() => void signOut()} key={index} className="bg-sky-600 text-white rounded-xl px-2 py-1 hover:bg-sky-400 duration-300">{button.name}</button>
+                                        } else {
+                                            return <button key={index} className="bg-sky-600 text-white rounded-xl px-2 py-1 hover:bg-sky-400 duration-300">{button.name}</button>
                                         }
                                     })}
                                 </div>

@@ -1,8 +1,24 @@
 import React from 'react'
 import { api } from '@/utils/api'
 import Image from 'next/image';
+import type Stripe from 'stripe';
+import { toast } from 'react-hot-toast';
 export default function HomePage() {
     const { data: prodcutData } = api.products.getAll.useQuery();
+    const handleAddToCart = (item: Stripe.Product) => {
+        const data = localStorage.getItem('storeCart')
+        if (data) {
+            const cart = JSON.parse(data) as Stripe.Product[]
+            const newCart = [...cart, item]
+            localStorage.setItem('storeCart', JSON.stringify(newCart))
+            return toast.success('Izdelek dodan v košarico')
+        } else {
+            localStorage.setItem('storeCart', JSON.stringify([item]))
+            return toast.success('Izdelek dodan v košarico')
+        }
+        toast.error('Napaka pri dodajanju izdelka v košarico')
+    }
+
     return (
         <div>
             <div className="grid gap-6 sm:grid-cols-1   md:grid-cols-3 lg:grid-cols-4">
@@ -23,7 +39,7 @@ export default function HomePage() {
                         <div className="flex-grow"></div> {/* This div will push the buttons to the bottom */}
                         <div className="flex space-x-5 mt-3">
                             <div>
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <button onClick={() => handleAddToCart(product)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Dodaj v košarico
                                 </button>
                             </div>

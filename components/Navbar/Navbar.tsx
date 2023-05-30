@@ -7,6 +7,7 @@ import ProfileElement from './ProfileElement'
 import KrmilnikiElement from './KrmilnikiElement'
 import KompletiElement from './KompletiElement'
 import CartModal from './CartModal/CartModal'
+import Stripe from 'stripe'
 
 const NavTabItems = [
     {
@@ -46,14 +47,18 @@ const NavUserItems = [
 
 export default function Navbar({ setOpenCart }: { setOpenCart: React.Dispatch<React.SetStateAction<boolean>> }) {
     const { data: sessionData } = useSession()
+    const [cartRefreshCb, setCartRefreshCb] = useState<boolean>(false)
+    const [itemCount, setItemCount] = useState<number>(0)
     useEffect(() => {
-        const cart = localStorage.getItem('cart')
+        const cart = localStorage.getItem('storeCart')
         if (cart) {
-            console.log(cart)
+            const cartData = JSON.parse(cart) as Stripe.Product[]
+            setItemCount(cartData.length)
+
         } else {
             localStorage.setItem('storeCart', JSON.stringify([]))
         }
-    }, [])
+    }, [cartRefreshCb])
     return (
         <nav>
             <div className="flex justify-between items-center  h-16  text-black relative shadow-xl rounded-b-xl font-semibold " role="navigation">
@@ -83,7 +88,7 @@ export default function Navbar({ setOpenCart }: { setOpenCart: React.Dispatch<Re
                             {NavUserItems.map((item, index) => {
                                 if (!sessionData) {
                                     if (item.name === "Košarica") {
-                                        return <CartElement openCart={setOpenCart} key={index} itemCount={1} />
+                                        return <CartElement openCart={setOpenCart} cartRefreshCb={setCartRefreshCb} key={index} itemCount={itemCount} />
                                     }
                                     return (
                                         <div key={index} className='p-2 rounded-xl hover:bg-sky-400 duration-300 hover:text-slate-300'>
@@ -99,7 +104,7 @@ export default function Navbar({ setOpenCart }: { setOpenCart: React.Dispatch<Re
                                     else if (item.name === "Košarica") {
                                         return (
                                             <div key={index} className=''>
-                                                <CartElement openCart={setOpenCart} itemCount={1} />
+                                                <CartElement openCart={setOpenCart} itemCount={itemCount} />
                                             </div>)
                                     }
                                 }

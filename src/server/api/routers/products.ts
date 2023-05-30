@@ -22,12 +22,15 @@ export const productsRouter = createTRPCRouter({
 
     getOne: publicProcedure
         .input(z.object({ id: z.string() })).query(async ({ input }) => {
+
             const product = await stripe.products.retrieve(input.id);
+            const prices = await stripe.prices.retrieve(product.default_price as string);
             if (!product) {
                 throw new Error("Product not found");
             }
             return {
                 product,
+                prices: prices.unit_amount_decimal
             };
         }
         ),
