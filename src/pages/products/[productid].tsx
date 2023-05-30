@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { api } from '@/utils/api'
+import Image from 'next/image';
 export default function ProductDetails() {
 
     const router = useRouter();
@@ -13,14 +14,29 @@ export default function ProductDetails() {
     )
     return (
         <div>
-            <h1>Product Details</h1>
             <div>
                 {productData ? (
-                    <div>
-                        <h1>{productData.product.name}</h1>
-                        <h1>{productData.product.description}</h1>
-                        <h1>{productData.prices / 100}$</h1>
+                    <div className='box-content w-96  h-96 text-center'>
+                        <div className='flex-col'>
+                            {/*!TODO Center this whole component and make a description section with extra data */}
+                            <div className='text-center'>
+                                <Image className="w-full mt-10 h-32 object-cover" src={productData.product.images[0] as string} alt={productData.product.name} width={200} height={200} />
+                            </div>
+                            <div>
+                                <h1>{productData.product.name}</h1>
+                            </div>
+                            <div>
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Dodaj v košarico {productData.prices / 100} $
+                                </button>
+                            </div>
+                            <div className=''>
+                                <p>{productData.product.description}</p>
+
+                            </div>
+                        </div>
                     </div>
+
                 ) : null}
             </div>
         </div>
