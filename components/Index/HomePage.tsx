@@ -5,9 +5,9 @@ export default function HomePage() {
     const { data: prodcutData } = api.products.getAll.useQuery();
     return (
         <div>
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid gap-6 sm:grid-cols-1   md:grid-cols-3 lg:grid-cols-4">
                 {prodcutData?.products?.map((product) => (
-                    <div key={product.id} className="bg-white box-content w-64 h-max-[64px] shadow-md rounded-md flex flex-col">
+                    <div key={product.id} className="bg-white box-content w-64 h-max-[64px] shadow-md rounded-md flex flex-col dl">
                         <div>
                             <Image className="w-full h-32 object-cover" src={product.images[0] as string} alt={product.name} width={200} height={200} />
                         </div>

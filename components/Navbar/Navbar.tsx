@@ -1,11 +1,12 @@
 import { signIn, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import CartElement from './CartElement'
 import ProfileElement from './ProfileElement'
 import KrmilnikiElement from './KrmilnikiElement'
 import KompletiElement from './KompletiElement'
+import CartModal from './CartModal/CartModal'
 
 const NavTabItems = [
     {
@@ -43,15 +44,16 @@ const NavUserItems = [
 
 ]
 
-export default function Navbar() {
+export default function Navbar({ setOpenCart }: { setOpenCart: React.Dispatch<React.SetStateAction<boolean>> }) {
     const { data: sessionData } = useSession()
     useEffect(() => {
         const cart = localStorage.getItem('cart')
         if (cart) {
             console.log(cart)
+        } else {
+            localStorage.setItem('storeCart', JSON.stringify([]))
         }
     }, [])
-
     return (
         <nav>
             <div className="flex justify-between items-center  h-16  text-black relative shadow-xl rounded-b-xl font-semibold " role="navigation">
@@ -81,7 +83,7 @@ export default function Navbar() {
                             {NavUserItems.map((item, index) => {
                                 if (!sessionData) {
                                     if (item.name === "Košarica") {
-                                        return <CartElement key={index} itemCount={1} />
+                                        return <CartElement openCart={setOpenCart} key={index} itemCount={1} />
                                     }
                                     return (
                                         <div key={index} className='p-2 rounded-xl hover:bg-sky-400 duration-300 hover:text-slate-300'>
@@ -97,7 +99,7 @@ export default function Navbar() {
                                     else if (item.name === "Košarica") {
                                         return (
                                             <div key={index} className=''>
-                                                <CartElement itemCount={1} />
+                                                <CartElement openCart={setOpenCart} itemCount={1} />
                                             </div>)
                                     }
                                 }
