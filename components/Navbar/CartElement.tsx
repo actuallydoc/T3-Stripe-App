@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
-import Stripe from 'stripe'
 export default function CartElement({ openCart, itemCount }: { itemCount: number, openCart: React.Dispatch<React.SetStateAction<boolean>> }) {
     const handleOpenCart = () => {
         openCart(true)

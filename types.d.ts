@@ -1,7 +1,8 @@
-export interface CartItem {
-    quantity: number,
-    id: string,
-    name: string,
-    description: string | null,
-    default_price?: string | Stripe.Price | null;
-}
+import Stripe from "stripe";
+import { TypeOf } from "zod";
+
+
+export type CartItem = TypeOf<typeof Stripe.Product>;
+export type Cart = CartItem[];
+
+

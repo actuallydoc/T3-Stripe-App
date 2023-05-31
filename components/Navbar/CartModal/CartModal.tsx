@@ -1,9 +1,21 @@
 import Image from 'next/image';
 import React, { useEffect } from 'react'
 import type Stripe from 'stripe';
-
+import { api } from '@/utils/api';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import { useStripe } from '@stripe/react-stripe-js';
+import { Cart, CartItem } from 'types';
 export default function CartModal({ setShowModal }: { setShowModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [cart, setCart] = React.useState<Stripe.Product[]>([] as Stripe.Product[])
+    const stripePromise = useStripe();
+    //NextAuth session context provider
+    const { data: sessionData } = useSession();
+    const { data: productsData } = api.products.getAll.useQuery(
+        undefined, // no input
+        { enabled: sessionData?.user !== undefined },
+    )
+    const checkout = api.payment.createCheckout.useMutation();
     useEffect(() => {
         const data = localStorage.getItem('storeCart')
         if (data) {
@@ -11,8 +23,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         }
         console.log(cart)
     }, []);
-
-    const handleRemoveItem = (e: HTMLButtonElement, item
+    const handleRemoveItem = (e: MouseEvent, item
         : Stripe.Product) => {
         const data = localStorage.getItem('storeCart')
         if (data) {
@@ -22,7 +33,28 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
             setCart(newCart)
         }
     }
-
+    const handleCheckout = async () => {
+        // Quantity state is passed to the backend
+        // Product id is passed to the backend
+        if (Object.keys(cart).length === 0) {
+            toast.error("Shopping Cart is empty");
+            return;
+        }
+        toast.success("Redirecting to checkout page");
+        const response = await checkout.mutateAsync({
+            //Because the product type does not have a quantity property it is added here and the error appears
+            products: cart,
+            email: sessionData?.user?.email as string,
+        });
+        const stripe = stripePromise;
+        //Redirects the user to the checkout page if the checkout session provider exist's and is not null
+        //This is stripe magic
+        if (stripe !== null) {
+            await stripe.redirectToCheckout({
+                sessionId: response.id,
+            })
+        }
+    }
     return (
         <div className=" bg-gray-100">
             <div className="flex items-center justify-center h-full">
@@ -88,12 +120,24 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
                                         Total
                                     </div>
                                 </div>
+                                <div>
+                                    <button onClick={handleCheckout} className="bg-gray-800 text-white active:bg-gray-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full" type="button" style={{ transition: "all .15s ease" }}>
+                                        <span className="inline-block mr-2">Checkout</span>
+                                        <span className="inline-block">
+                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    fillRule="evenodd"
+                                                />
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
 
 
     )
