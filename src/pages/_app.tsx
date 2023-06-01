@@ -8,6 +8,12 @@ import {
   Elements,
 } from '@stripe/react-stripe-js';
 import Layout from "components/Layout";
+import { shoppingCartSlice } from "@/../stores/shoppingCartStore";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from 'react-redux'
+const store = configureStore({
+  reducer: shoppingCartSlice.reducer,
+})
 
 //Public key that will be used on the frontend
 //Your need a elements context provider from stripe to give access to the stripePromise in the components
@@ -18,14 +24,16 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <Elements stripe={stripePromise}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+    <Provider store={store}>
+      <SessionProvider session={session}>
+        <Elements stripe={stripePromise}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
 
-      </Elements>
-    </SessionProvider>
+        </Elements>
+      </SessionProvider>
+    </Provider>
   );
 };
 

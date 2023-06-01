@@ -9,18 +9,15 @@ import { CartItem } from "@/../types";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: "2022-11-15",
 });
-
 export const ShoppingCardItem = z.object({
     quantity: z.number().int().positive(),
     id: z.string(),
     default_price: z.string(),
 });
-
 const label: Stripe.Checkout.SessionCreateParams.CustomField.Label = {
     custom: "Shipping Method",
     type: "custom",
 }
-
 const DropDownOption: Stripe.Checkout.SessionCreateParams.CustomField.Dropdown.Option[] = [{
     label: "Standard",
     value: "StandardShipping",
@@ -40,7 +37,7 @@ const dropdown: Stripe.Checkout.SessionCreateParams.CustomField.Dropdown = {
 }
 export const paymentRouter = createTRPCRouter({
 
-    createCheckout: protectedProcedure.input(z.object({ products: , email: z.string() })).mutation(({ input }) => {
+    createCheckout: protectedProcedure.input(z.object({ products: ShoppingCardItem.array(), email: z.string() })).mutation(({ input }) => {
         //This is the stripe checkout session create procedure you can made a custom checkout session here with custom fields that stripe provides
         return stripe.checkout.sessions.create({
             mode: "payment",
