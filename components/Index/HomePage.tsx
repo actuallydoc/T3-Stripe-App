@@ -5,8 +5,11 @@ import type Stripe from 'stripe';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import type CustomProduct from 'types';
+import { useDispatch } from 'react-redux';
+import { shoppingCartSlice } from 'stores/shoppingCartStore';
 export default function HomePage() {
     const { data: prodcutData } = api.products.getAll.useQuery();
+    const dispatch = useDispatch();
     const handleAddToCart = (item: CustomProduct) => {
         const data = localStorage.getItem('storeCart')
         if (data) {
@@ -18,12 +21,14 @@ export default function HomePage() {
                 //Increase the quantity of the item in the cart
                 itemInCart.quantity += 1
                 localStorage.setItem('storeCart', JSON.stringify(cart))
+                dispatch(shoppingCartSlice.actions.addToCart(itemInCart))
                 return toast.success("Increase the quantity of the item in the cart");
             } else {
                 //Add the item to the cart
                 item.quantity = 1
                 cart.push(item)
                 localStorage.setItem('storeCart', JSON.stringify(cart))
+                dispatch(shoppingCartSlice.actions.addToCart(item))
                 return toast.success("Item added to cart");
             }
 

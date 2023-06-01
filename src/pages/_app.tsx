@@ -11,9 +11,8 @@ import Layout from "components/Layout";
 import { shoppingCartSlice } from "@/../stores/shoppingCartStore";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from 'react-redux'
-const store = configureStore({
-  reducer: shoppingCartSlice.reducer,
-})
+
+import store from "@/../stores/shoppingCartStore";
 
 //Public key that will be used on the frontend
 //Your need a elements context provider from stripe to give access to the stripePromise in the components

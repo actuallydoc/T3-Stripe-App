@@ -1,5 +1,6 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
-import Stripe from "stripe";
+import type Stripe from "stripe";
+import CustomProduct from "types";
 
 
 
@@ -7,34 +8,50 @@ export const shoppingCartSlice = createSlice({
     name: "shoppingCart",
     initialState: {
         //Get the items from local storage if there are any
-        items: [] as Stripe.Product[],
+        items: [] as CustomProduct[],
     },
     reducers: {
-        addToCart(state, action: { payload: Stripe.Product; }) {
+        initializeCart(state, action: { payload: CustomProduct[]; }) {
+
+
+            state.items = action.payload;
+
+        },
+        addToCart(state, action: { payload: CustomProduct; }) {
             const item = action.payload;
-            const existingItem = state.items.find((item) => item.id === item.id);
-            if (!existingItem) {
+            const existingItem = state.items.find((itemTemp) => itemTemp.default_price === item.default_price);
+
+            if (existingItem === undefined) {
+
+
                 state.items.push({
                     ...item,
                 });
             }
             else {
+                //iTEM ALREADY EXISTS
 
-                //existingItem.quantity++;
+
+
+                existingItem.quantity++;
+                //Replace the item in the array
+                const tempItems = state.items.map((item) => {
+                    if (item.default_price === existingItem.default_price) {
+                        return existingItem;
+                    }
+                    return item;
+                }
+                );
+                state.items = tempItems;
+
             }
         },
-        removeFromCart(state, action: { payload: Stripe.Product; }) {
-            const id = action.payload.default_price;
-            const existingItem = state.items.find((item) => item.default_price === id);
+        removeFromCart(state, action: { payload: CustomProduct; }) {
+            const item = action.payload;
+            const existingItem = state.items.find((itemTemp) => item.default_price === itemTemp.default_price);
             if (existingItem) {
-                /*
-                if (existingItem.quantity === 1) {
-                    state.items = state.items.filter((item) => item.id !== id);
-                }
-                else {
-                    existingItem.quantity--;
-                }
-                */
+                state.items = state.items.filter((itemTemp) => item.default_price !== itemTemp.default_price);
+                //The item quantity is 1 so remove it from the array
             }
         },
         clearCart(state) {
@@ -43,4 +60,12 @@ export const shoppingCartSlice = createSlice({
     },
 });
 
-export const { clearCart, addToCart, removeFromCart } = shoppingCartSlice.actions;
+
+
+const store = configureStore({
+    reducer: shoppingCartSlice.reducer,
+})
+
+export type RootState = ReturnType<typeof store.getState>;
+export default store;
+export const { clearCart, addToCart, removeFromCart, initializeCart } = shoppingCartSlice.actions;

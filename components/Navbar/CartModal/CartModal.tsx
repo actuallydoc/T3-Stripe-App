@@ -3,12 +3,19 @@ import React, { useEffect } from 'react'
 import type Stripe from 'stripe';
 import { api } from '@/utils/api';
 import toast from 'react-hot-toast';
+
 import { useSession } from 'next-auth/react';
 import { useStripe } from '@stripe/react-stripe-js';
-import { CustomProduct } from 'types';
+import CustomProduct from 'types';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, shoppingCartSlice } from 'stores/shoppingCartStore';
+import { ShoppingCardItem } from '@/server/api/routers/payment';
 export default function CartModal({ setShowModal }: { setShowModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [cart, setCart] = React.useState<CustomProduct[]>([]);
     const stripePromise = useStripe();
+    //!!todo this is just for testing
+
+    const dispatch = useDispatch();
     //NextAuth session context provider
     const { data: sessionData } = useSession();
     const { data: productsData } = api.products.getAll.useQuery(
@@ -21,10 +28,11 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         if (data) {
             setCart(JSON.parse(data) as CustomProduct[])
         }
-        console.log(cart)
+
     }, []);
     const handleRemoveItem = (e: MouseEvent, item
         : CustomProduct) => {
+        e.preventDefault();
         const data = localStorage.getItem('storeCart')
         if (data) {
             const cart = JSON.parse(data) as CustomProduct[]
@@ -33,6 +41,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
 
             setCart(newCart)
         }
+        dispatch(shoppingCartSlice.actions.removeFromCart(item))
     }
     const handleCheckout = async () => {
         // Quantity state is passed to the backend
