@@ -1,8 +1,7 @@
-import Stripe from "stripe";
-import { TypeOf } from "zod";
+import type Stripe from "stripe";
 
+interface CustomProduct extends Stripe.Product {
+    quantity: number;
+}
 
-export type CartItem = TypeOf<typeof Stripe.Product>;
-export type Cart = CartItem[];
-
-
+export default CustomProduct;

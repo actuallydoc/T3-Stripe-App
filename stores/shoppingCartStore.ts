@@ -7,7 +7,7 @@ export const shoppingCartSlice = createSlice({
     name: "shoppingCart",
     initialState: {
         //Get the items from local storage if there are any
-        items: JSON.parse(localStorage.getItem("storeCart") || "[]") as Stripe.Product[],
+        items: [] as Stripe.Product[],
     },
     reducers: {
         addToCart(state, action: { payload: Stripe.Product; }) {

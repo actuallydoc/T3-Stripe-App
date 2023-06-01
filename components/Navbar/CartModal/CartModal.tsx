@@ -5,9 +5,9 @@ import { api } from '@/utils/api';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { useStripe } from '@stripe/react-stripe-js';
-import { Cart, CartItem } from 'types';
+import { CustomProduct } from 'types';
 export default function CartModal({ setShowModal }: { setShowModal: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const [cart, setCart] = React.useState<Stripe.Product[]>([] as Stripe.Product[])
+    const [cart, setCart] = React.useState<CustomProduct[]>([]);
     const stripePromise = useStripe();
     //NextAuth session context provider
     const { data: sessionData } = useSession();
@@ -19,17 +19,18 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
     useEffect(() => {
         const data = localStorage.getItem('storeCart')
         if (data) {
-            setCart(JSON.parse(data) as Stripe.Product[])
+            setCart(JSON.parse(data) as CustomProduct[])
         }
         console.log(cart)
     }, []);
     const handleRemoveItem = (e: MouseEvent, item
-        : Stripe.Product) => {
+        : CustomProduct) => {
         const data = localStorage.getItem('storeCart')
         if (data) {
-            const cart = JSON.parse(data) as Stripe.Product[]
+            const cart = JSON.parse(data) as CustomProduct[]
             const newCart = cart.filter((cartItem) => cartItem.id !== item.id)
             localStorage.setItem('storeCart', JSON.stringify(newCart))
+
             setCart(newCart)
         }
     }
@@ -43,7 +44,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         toast.success("Redirecting to checkout page");
         const response = await checkout.mutateAsync({
             //Because the product type does not have a quantity property it is added here and the error appears
-            products: cart,
+            products: cart as Stripe.Product[],
             email: sessionData?.user?.email as string,
         });
         const stripe = stripePromise;
@@ -93,7 +94,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
                                                         <div className="">{"Price"}</div>
                                                     </td>
                                                     <td className="p-3 px-5">
-                                                        <div className="">{item.name}</div>
+                                                        <input type='number' className="w-10 border text-center" value={item.quantity} />
                                                     </td>
                                                     <td className="p-3 px-5">
                                                         <div className="">{item.name}</div>

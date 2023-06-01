@@ -4,21 +4,34 @@ import Image from 'next/image';
 import type Stripe from 'stripe';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import type CustomProduct from 'types';
 export default function HomePage() {
     const { data: prodcutData } = api.products.getAll.useQuery();
-    const handleAddToCart = (item: Stripe.Product) => {
+    const handleAddToCart = (item: CustomProduct) => {
         const data = localStorage.getItem('storeCart')
         if (data) {
-            const cart = JSON.parse(data) as Stripe.Product[]
-            const newCart = [...cart, item]
-            localStorage.setItem('storeCart', JSON.stringify(newCart))
-            return toast.success('Izdelek dodan v košarico')
+            //Check if the item is already in the cart
+            const cart = JSON.parse(data) as CustomProduct[]
+            const itemInCart = cart.find((cartItem) => cartItem.default_price === item.default_price)
+            if (itemInCart) {
+                console.log("Item already in cart")
+                //Increase the quantity of the item in the cart
+                itemInCart.quantity += 1
+                localStorage.setItem('storeCart', JSON.stringify(cart))
+                return toast.success("Increase the quantity of the item in the cart");
+            } else {
+                //Add the item to the cart
+                item.quantity = 1
+                cart.push(item)
+                localStorage.setItem('storeCart', JSON.stringify(cart))
+                return toast.success("Item added to cart");
+            }
+
         } else {
-            localStorage.setItem('storeCart', JSON.stringify([item]))
-            return toast.success('Izdelek dodan v košarico')
+            console.log("Cart is empty")
         }
-        toast.error('Napaka pri dodajanju izdelka v košarico')
     }
+
     const router = useRouter();
     return (
         <div>
@@ -51,7 +64,7 @@ export default function HomePage() {
                         <div className="flex space-x-5 mt-3">
                             <div className='flex'>
                                 <div>
-                                    <button onClick={() => handleAddToCart(product)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    <button onClick={() => handleAddToCart(product as CustomProduct)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                         Dodaj v košarico
                                     </button>
                                 </div>
