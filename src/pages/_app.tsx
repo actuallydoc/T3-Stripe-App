@@ -8,8 +8,7 @@ import {
   Elements,
 } from '@stripe/react-stripe-js';
 import Layout from "components/Layout";
-import { shoppingCartSlice } from "@/../stores/shoppingCartStore";
-import { configureStore } from "@reduxjs/toolkit";
+
 import { Provider } from 'react-redux'
 
 import store from "@/../stores/shoppingCartStore";
@@ -28,6 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Elements stripe={stripePromise}>
           <Layout>
             <Component {...pageProps} />
+
           </Layout>
 
         </Elements>

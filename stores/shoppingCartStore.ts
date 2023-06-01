@@ -1,6 +1,6 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
-import type Stripe from "stripe";
-import CustomProduct from "types";
+
+import type CustomProduct from "types";
 
 
 

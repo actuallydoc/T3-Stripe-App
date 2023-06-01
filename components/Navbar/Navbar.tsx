@@ -1,15 +1,12 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react'
-import Image from 'next/image'
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import CartElement from './CartElement'
 import ProfileElement from './ProfileElement'
 import KrmilnikiElement from './KrmilnikiElement'
 import KompletiElement from './KompletiElement'
-import CartModal from './CartModal/CartModal'
-import Stripe from 'stripe'
-import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts'
+import type Stripe from 'stripe'
+
 
 
 const NavTabItems = [
@@ -49,8 +46,6 @@ const NavUserItems = [
 ]
 export default function Navbar({ setOpenCart }: { setOpenCart: React.Dispatch<React.SetStateAction<boolean>> }) {
     const { data: sessionData } = useSession()
-
-    const cartData = useReadLocalStorage<Stripe.Product[]>('storeCart')
     const [itemCount, setItemCount] = useState<number>(0)
     useEffect(() => {
         console.log('cartData changed');
@@ -61,7 +56,7 @@ export default function Navbar({ setOpenCart }: { setOpenCart: React.Dispatch<Re
         } else {
             localStorage.setItem('storeCart', JSON.stringify([]))
         }
-    }, [cartData])
+    }, [])
     return (
         <nav>
             <div className="flex justify-between items-center  h-16  text-black relative shadow-xl rounded-b-xl font-semibold " role="navigation">

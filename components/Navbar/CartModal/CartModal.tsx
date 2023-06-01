@@ -6,10 +6,9 @@ import toast from 'react-hot-toast';
 
 import { useSession } from 'next-auth/react';
 import { useStripe } from '@stripe/react-stripe-js';
-import CustomProduct from 'types';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, shoppingCartSlice } from 'stores/shoppingCartStore';
-import { ShoppingCardItem } from '@/server/api/routers/payment';
+import type CustomProduct from 'types';
+import { useDispatch } from 'react-redux';
+import { shoppingCartSlice } from 'stores/shoppingCartStore';
 export default function CartModal({ setShowModal }: { setShowModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [cart, setCart] = React.useState<CustomProduct[]>([]);
     const stripePromise = useStripe();
@@ -38,10 +37,13 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
             const cart = JSON.parse(data) as CustomProduct[]
             const newCart = cart.filter((cartItem) => cartItem.id !== item.id)
             localStorage.setItem('storeCart', JSON.stringify(newCart))
-
             setCart(newCart)
+            toast.success("Item removed from cart");
+            dispatch(shoppingCartSlice.actions.removeFromCart(item))
+        } else {
+            toast.error("Item not removed from cart");
         }
-        dispatch(shoppingCartSlice.actions.removeFromCart(item))
+
     }
     const handleCheckout = async () => {
         // Quantity state is passed to the backend
@@ -109,7 +111,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
                                                         <div className="">{item.name}</div>
                                                     </td>
                                                     <td className="p-3 px-5">
-                                                        <button onClick={(e) => handleRemoveItem(e, item)} className="text-red-400 hover:text-red-600 hover:font-medium">
+                                                        <button onClick={(e) => handleRemoveItem(e as unknown as MouseEvent, item)} className="text-red-400 hover:text-red-600 hover:font-medium">
                                                             <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                                                 <path
                                                                     d="M19 9H5v2h14V9zM5 15h14v-2H5v2z"
@@ -131,7 +133,9 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
                                     </div>
                                 </div>
                                 <div>
-                                    <button onClick={handleCheckout} className="bg-gray-800 text-white active:bg-gray-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full" type="button" style={{ transition: "all .15s ease" }}>
+                                    <button onClick={() => {
+                                        handleCheckout().catch(() => console.log("Error"))
+                                    }} className="bg-gray-800 text-white active:bg-gray-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full" type="button" style={{ transition: "all .15s ease" }}>
                                         <span className="inline-block mr-2">Checkout</span>
                                         <span className="inline-block">
                                             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">

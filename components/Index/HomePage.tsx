@@ -1,42 +1,10 @@
 import React from 'react'
 import { api } from '@/utils/api'
 import Image from 'next/image';
-import type Stripe from 'stripe';
-import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
-import type CustomProduct from 'types';
-import { useDispatch } from 'react-redux';
-import { shoppingCartSlice } from 'stores/shoppingCartStore';
+import ProductAddButton from 'components/Products/ProductAddButton';
 export default function HomePage() {
     const { data: prodcutData } = api.products.getAll.useQuery();
-    const dispatch = useDispatch();
-    const handleAddToCart = (item: CustomProduct) => {
-        const data = localStorage.getItem('storeCart')
-        if (data) {
-            //Check if the item is already in the cart
-            const cart = JSON.parse(data) as CustomProduct[]
-            const itemInCart = cart.find((cartItem) => cartItem.default_price === item.default_price)
-            if (itemInCart) {
-                console.log("Item already in cart")
-                //Increase the quantity of the item in the cart
-                itemInCart.quantity += 1
-                localStorage.setItem('storeCart', JSON.stringify(cart))
-                dispatch(shoppingCartSlice.actions.addToCart(itemInCart))
-                return toast.success("Increase the quantity of the item in the cart");
-            } else {
-                //Add the item to the cart
-                item.quantity = 1
-                cart.push(item)
-                localStorage.setItem('storeCart', JSON.stringify(cart))
-                dispatch(shoppingCartSlice.actions.addToCart(item))
-                return toast.success("Item added to cart");
-            }
-
-        } else {
-            console.log("Cart is empty")
-        }
-    }
-
     const router = useRouter();
     return (
         <div>
@@ -68,11 +36,8 @@ export default function HomePage() {
                         <div className="flex-grow"></div> {/* This div will push the buttons to the bottom */}
                         <div className="flex space-x-5 mt-3">
                             <div className='flex'>
-                                <div>
-                                    <button onClick={() => handleAddToCart(product as CustomProduct)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Dodaj v košarico
-                                    </button>
-                                </div>
+                                {/*!TODO Fix the field conflict */}
+                                <ProductAddButton product={product} />
                                 <div>
                                     <div className="box-content pb-3">
                                         <input className="w-16 text-center content-center h-10 border-2 border-gray-200 rounded-md" type="number" defaultValue={1} />
