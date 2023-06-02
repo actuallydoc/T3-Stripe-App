@@ -45,7 +45,7 @@ export default function Navbar() {
                         return <EspModal key={index} item={item} />
                     }
                     else if (item.name === "Novo") {
-                        return <div className='p-2  text-red-500 rounded-xl hover:border-2 duration-300' key={index}>{item.name}</div>
+                        return <div className='p-2  text-red-500 text-xl rounded-xl hover:translate-x-1 duration-300' key={index}>{item.name}</div>
                     } else {
                         return <div className='p-2 rounded-xl hover:translate-x-1 duration-300' key={index}>{item.name}</div>
                     }

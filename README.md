@@ -2,7 +2,7 @@
 
 This is an example application that demonstrates the integration of various technologies such as trpc, Next.js, React, NextAuth, Tailwind CSS, and Stripe. It showcases how to build a web application with server-side rendering, authentication, and payment processing using these technologies.
 
-![Showcase](https://i.imgur.com/APm22w9.png/)
+![Showcase](https://i.imgur.com/H9AcM7M.png)
 ## Features
 
 - Server-side rendering with Next.js for improved performance and SEO.

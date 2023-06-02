@@ -35,11 +35,11 @@ export default function LogoBar({ setOpenCart }: { setOpenCart: React.Dispatch<R
                     </div>
                     <div className="flex pr-8">
                         <div className="flex space-x-4">
-                            <div className="flex p-2 rounded-x space-x-5">
+                            <div className="flex p-4  rounded-x space-x-5">
                                 {NavUserItems.map((item, index) => {
                                     if (!sessionData) {
                                         if (item.name === "Lokacija") {
-                                            return <GoLocation key={index} size={30} />;
+                                            return <LocationButton key={index} />;
                                         }
                                         else if (item.name === "Košarica") {
                                             return <CartElement openCart={setOpenCart} key={index} itemCount={itemCount} />

@@ -10,8 +10,10 @@ export default function CartElement({ openCart }: { itemCount: number, openCart:
 
 
     return (
-        <div onClick={handleOpenCart} className='p-2 rounded-xl hover:bg-sky-400 duration-300 hover:text-slate-300 cursor-pointer relative'>
-            <AiOutlineShoppingCart size={24} />
+        <div onClick={handleOpenCart} className='rounded-xl hover:bg-[#10A193] p-1 duration-300 hover:text-slate-300 cursor-pointer relative'>
+            <div className='mt-2 px-1'>
+                <AiOutlineShoppingCart size={25} />
+            </div>
             <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-2 py-0.5">
                 {storeSelector}
             </span>
