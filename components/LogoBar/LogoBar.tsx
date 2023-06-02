@@ -1,10 +1,14 @@
-import CartElement from 'components/LogoBar/CartElement';
-import ProfileElement from 'components/LogoBar/ProfileElement';
+import CartElement from 'components/LogoBar/Elements/CartElement';
+import ProfileElement from 'components/LogoBar/Elements/ProfileElement';
 import { useSession, signIn } from 'next-auth/react'
-import { GoLocation } from "react-icons/go"
 import React, { useState } from 'react'
-import LocationButton from './LocationButton';
+import LocationButton from './Elements/LocationButton';
+import ContactElement from './Elements/ContactElement';
 const NavUserItems = [
+    {
+        name: "Pomoč",
+        link: "/pomoč"
+    },
     {
         name: "Lokacija",
         link: "/"
@@ -38,12 +42,15 @@ export default function LogoBar({ setOpenCart }: { setOpenCart: React.Dispatch<R
                             <div className="flex p-4  rounded-x space-x-5">
                                 {NavUserItems.map((item, index) => {
                                     if (!sessionData) {
-                                        if (item.name === "Lokacija") {
-                                            return <LocationButton key={index} />;
-                                        }
-                                        else if (item.name === "Košarica") {
-                                            return <CartElement openCart={setOpenCart} key={index} itemCount={itemCount} />
-                                        }
+                                        if (item.name === "Pomoč") {
+                                            return <ContactElement key={index} />
+                                        } else
+                                            if (item.name === "Lokacija") {
+                                                return <LocationButton key={index} />;
+                                            }
+                                            else if (item.name === "Košarica") {
+                                                return <CartElement openCart={setOpenCart} key={index} itemCount={itemCount} />
+                                            }
                                         return (
                                             <div key={index} className='p-2 rounded-xl hover:bg-sky-400 duration-300 hover:text-slate-300'>
                                                 <button onClick={() => void signIn()}>Prijava</button>
@@ -51,9 +58,12 @@ export default function LogoBar({ setOpenCart }: { setOpenCart: React.Dispatch<R
                                         )
                                     }
                                     else {
-                                        if (item.name === "Lokacija") {
-                                            return <LocationButton key={index} />
-                                        }
+                                        if (item.name === "Pomoč") {
+                                            return <ContactElement key={index} />
+                                        } else
+                                            if (item.name === "Lokacija") {
+                                                return <LocationButton key={index} />
+                                            }
                                         if ((item.name === "Prijava") && sessionData) {
                                             return <ProfileElement key={index} imageLink={sessionData?.user?.image as string} />
                                         } else if (item.name === "Registracija") {

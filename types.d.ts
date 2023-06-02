@@ -5,3 +5,10 @@ interface CustomProduct extends Stripe.Product {
 }
 
 export default CustomProduct;
+
+
+export interface DropDownItem {
+    name: string,
+    link: string,
+    image: string
+}

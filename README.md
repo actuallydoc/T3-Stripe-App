@@ -17,9 +17,7 @@ Before running the application, ensure you have the following installed on your 
 
 - Node.js (version 14 or later)
 - npm (Node Package Manager)
-
 ## Getting Started
-
 1. Clone the repository:
 
    ```bash
