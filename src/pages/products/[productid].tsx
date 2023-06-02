@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { api } from '@/utils/api'
-import Image from 'next/image';
 import ProductAddButton from 'components/Products/ProductAddButton';
 import ProductImageSlider from 'components/Products/ProductImageSlider';
 export default function ProductDetails() {

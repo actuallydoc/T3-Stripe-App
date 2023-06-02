@@ -1,48 +1,34 @@
 import React from 'react'
 import { api } from '@/utils/api'
-import Image from 'next/image';
+import HomePageImage from './HomePageImage';
+import BuyButton from './BuyButton';
 import { useRouter } from 'next/router';
-import ProductAddButton from 'components/Products/ProductAddButton';
 export default function HomePage() {
     const { data: prodcutData } = api.products.getAll.useQuery();
     const router = useRouter();
     return (
-        <div>
-            <div className="grid gap-6 sm:grid-cols-1   md:grid-cols-3 lg:grid-cols-4">
-                {prodcutData?.products?.map((product) => (
-                    <div key={product.id}
-                        className="bg-white box-content w-64 h-max-[64px] shadow-md rounded-md flex flex-col hover:scale-105 duration-300 cursor-pointer">
-                        <div>
-                            <div onClick={() => {
-                                router.push(`/products/${product.id}`).catch((error) => {
-                                    console.log(error)
-                                })
-                            }}>
-                                <div>
-                                    <Image className="w-full h-32 object-cover" src={product.images[0] as string} alt={product.name} width={200} height={200} />
-                                </div>
-                                <div>
-                                    <h2 className="text-lg font-bold">{product.name}</h2>
-                                </div>
-                                <div>
-                                    <p className="text-sm">{product.description}</p>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-bold">10$</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className="flex-grow"></div> {/* This div will push the buttons to the bottom */}
-                        <div className="flex space-x-5 mt-3">
-                            <div className='flex'>
-                                {/*!TODO Fix the field conflict */}
-                                <ProductAddButton product={product} />
-                            </div>
-
-                        </div>
+        <div className='bg-[#D9D9D9]'>
+            <div className='flex pl-32'>
+                <div className='flex flex-col content-center justify-center space-y-10 '>
+                    <div className='pb-7'>
+                        <p className='text-4xl font-medium'>KRMILNIKI ZA VAŠE POTREBE</p>
                     </div>
-                ))}
+                    <div className='flex-col'>
+                        <div>
+                            <p className='text-xl'>Velika ponudba krmilnikov za vaše projekte</p>
+                        </div>
+                        <div>
+                            <p className='text-xl'>s katerimi boste izpolnili vaše načrte</p>
+                        </div>
+
+                    </div>
+                    <BuyButton />
+                </div>
+                <div className='ml-auto mr-20'>
+                    <HomePageImage />
+                </div>
+
+
             </div>
         </div >
     )

@@ -1,15 +1,13 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import type Stripe from 'stripe';
 import { api } from '@/utils/api';
 import toast from 'react-hot-toast';
-
 import { useSession } from 'next-auth/react';
 import { useStripe } from '@stripe/react-stripe-js';
 import type CustomProduct from 'types';
 import { useDispatch, useSelector } from 'react-redux';
 import { shoppingCartSlice } from 'stores/shoppingCartStore';
-import { RootState } from 'stores/shoppingCartStore';
+import type { RootState } from 'stores/shoppingCartStore';
 export default function CartModal({ setShowModal }: { setShowModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [cart, setCart] = useState<CustomProduct[]>([]);
     const stripePromise = useStripe();
@@ -68,6 +66,8 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         toast.success("Redirecting to checkout page");
         const response = await checkout.mutateAsync({
             //Because the product type does not have a quantity property it is added here and the error appears
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
             products: cartSelector,
             email: sessionData?.user?.email as string,
         });

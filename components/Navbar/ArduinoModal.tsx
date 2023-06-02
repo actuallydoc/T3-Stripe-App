@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-export default function KrmilnikiElement({ item }: { item: { name: string, link: string } }) {
+export default function ArduinoModal({ item }: { item: { name: string, link: string } }) {
     const [krmilnikiDropDown, setKrmilnikiDropDown] = useState(false)
     const handleKrmilnikiDropDown = () => {
         setKrmilnikiDropDown(!krmilnikiDropDown)
@@ -33,25 +33,25 @@ export default function KrmilnikiElement({ item }: { item: { name: string, link:
                                         </div>
                                         <div className='flex-col space-y-3 text-sm text-slate-400'>
                                             <div>
-                                                <Link href='/krmilniki'>UNO</Link>
+                                                <Link href='/arduino/uno'>UNO</Link>
                                             </div>
                                             <div>
-                                                <Link href='/krmilniki'>Nano</Link>
+                                                <Link href='/arduino/nano'>Nano</Link>
                                             </div>
                                             <div>
-                                                <Link href='/krmilniki'>Mega</Link>
+                                                <Link href='/arduino/mega'>Mega</Link>
                                             </div>
                                             <div>
-                                                <Link href='/krmilniki'>Pro Mini</Link>
+                                                <Link href='/arduino/pro-mini'>Pro Mini</Link>
                                             </div>
                                             <div>
-                                                <Link href='/krmilniki'>Pro Micro</Link>
+                                                <Link href='/arduino/pro-micro'>Pro Micro</Link>
                                             </div>
                                             <div>
-                                                <Link href='/krmilniki'>Leonardo</Link>
+                                                <Link href='/arduino/leonardo'>Leonardo</Link>
                                             </div>
                                             <div>
-                                                <Link href='/krmilniki'>Ostali Arduino Krmilniki</Link>
+                                                <Link href='/arduino/ostali'>Ostali Arduino Krmilniki</Link>
                                             </div>
                                         </div>
                                     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 const ProfileButtons = [
     {
         name: 'Naročila',
@@ -19,7 +19,7 @@ const ProfileButtons = [
 export default function ProfileElement({ imageLink }: { imageLink: string }) {
 
     const [profileDropDown, setProfileDropDown] = useState(false)
-
+    const { data: sessionData } = useSession();
     const openDropDown = () => {
         setProfileDropDown(!profileDropDown)
     }
@@ -38,16 +38,16 @@ export default function ProfileElement({ imageLink }: { imageLink: string }) {
                                     <p className="text-sm text-gray-500">Prijavljeni ste kot:</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-800">Janez Novak</p>
+                                    <p className="text-sm text-gray-800">{sessionData?.user?.name}</p>
                                 </div>
                             </div>
                             <div className="flex flex-col w-32 gap-2">
                                 <div className='space-y-2 '>
                                     {ProfileButtons.map((button, index) => {
                                         if (button.name === 'Odjava') {
-                                            return <button onClick={() => void signOut()} key={index} className="bg-sky-600 text-white rounded-xl px-2 py-1 hover:bg-sky-400 duration-300">{button.name}</button>
+                                            return <button onClick={() => void signOut()} key={index} className="bg-[#D9D9D9] text-white rounded-xl px-2 py-1 hover:bg-emerald-700 duration-300">{button.name}</button>
                                         } else {
-                                            return <button key={index} className="bg-sky-600 text-white rounded-xl px-2 py-1 hover:bg-sky-400 duration-300">{button.name}</button>
+                                            return <button key={index} className="bg-[#D9D9D9] text-white rounded-xl px-2 py-1 hover:emerald-700 duration-300 ">{button.name}</button>
                                         }
                                     })}
                                 </div>

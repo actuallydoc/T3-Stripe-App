@@ -1,11 +1,8 @@
 'use client';
-import { signIn, useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
-import CartElement from './CartElement'
-import ProfileElement from './ProfileElement'
-import KrmilnikiElement from './KrmilnikiElement'
-import KompletiElement from './KompletiElement'
 import type Stripe from 'stripe'
+import ArduinoModal from './ArduinoModal'
+import EspModal from './EspModal';
 
 
 
@@ -15,102 +12,46 @@ const NavTabItems = [
         link: "/"
     },
     {
-        name: "Krmilniki",
-        link: "/"
+        name: "Arduino",
+        link: "/arduino"
     },
     {
-        name: "Kompleti",
-        link: "/"
+        name: "ESP",
+        link: "/esp"
     },
     {
-        name: "Moduli",
-        link: "/"
+        name: "STM",
+        link: "/stm"
     },
     {
-        name: "Ostalo",
-        link: "/"
+        name: "Micro:bit",
+        link: "/microbit"
     },
+    {
+        name: "Raspberry Pi",
+        link: "/raspberrypi"
+    }
 
 ]
-const NavUserItems = [
-    {
-        name: "Prijava",
-        link: "/"
-    },
-
-    {
-        name: "Košarica",
-        link: "/"
-    },
-
-]
-export default function Navbar({ setOpenCart }: { setOpenCart: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const { data: sessionData } = useSession()
-    const [itemCount, setItemCount] = useState<number>(0)
-    useEffect(() => {
-        console.log('cartData changed');
-        const cart = localStorage.getItem('storeCart')
-        if (cart) {
-            const cartData = JSON.parse(cart) as Stripe.Product[]
-            setItemCount(cartData.length)
-        } else {
-            localStorage.setItem('storeCart', JSON.stringify([]))
-        }
-    }, [])
+export default function Navbar() {
     return (
-        <nav>
-            <div className="flex justify-between items-center  h-16  text-black relative shadow-xl rounded-b-xl font-semibold " role="navigation">
-                <div>
-                    <div className="flex items-center">
-                        <div className='flex pl-8'>
-                            <div className="flex space-x-10 ">
-                                {NavTabItems.map((item, index) => {
-                                    if (item.name === "Krmilniki") {
-                                        return (
-                                            <KrmilnikiElement key={index} item={item} />
-                                        )
-                                    } else if (item.name === "Kompleti") {
-                                        return <KompletiElement key={index} item={item} />
+        <nav className=''>
+            <div className="flex space-x-20 gap-1 justify-center items-center  h-16  text-black relative shadow-xl rounded-b-xl font-semibold " role="navigation">
+                {NavTabItems.map((item, index) => {
+                    if (item.name === "Arduino") {
+                        return <ArduinoModal key={index} item={item} />
+                    }
+                    else if (item.name === "ESP") {
+                        return <EspModal key={index} item={item} />
+                    }
+                    else if (item.name === "Novo") {
+                        return <div className='p-2  text-red-500 rounded-xl hover:border-2 duration-300' key={index}>{item.name}</div>
+                    } else {
+                        return <div className='p-2 rounded-xl hover:translate-x-1 duration-300' key={index}>{item.name}</div>
+                    }
+                })}
 
-                                    }
-                                })}
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div className="flex pr-8">
-                    <div className="flex space-x-4">
-                        <div className="flex p-2 rounded-x space-x-5">
-                            {NavUserItems.map((item, index) => {
-                                if (!sessionData) {
-                                    if (item.name === "Košarica") {
-                                        return <CartElement openCart={setOpenCart} key={index} itemCount={itemCount} />
-                                    }
-                                    return (
-                                        <div key={index} className='p-2 rounded-xl hover:bg-sky-400 duration-300 hover:text-slate-300'>
-                                            <button onClick={() => void signIn()}>Prijava</button>
-                                        </div>
-                                    )
-                                } else {
-                                    if ((item.name === "Prijava") && sessionData) {
-                                        return <ProfileElement key={index} imageLink={sessionData?.user?.image as string} />
-                                    } else if (item.name === "Registracija") {
-                                        return null;
-                                    }
-                                    else if (item.name === "Košarica") {
-                                        return (
-                                            <div key={index} className=''>
-                                                <CartElement openCart={setOpenCart} itemCount={itemCount} />
-                                            </div>)
-                                    }
-                                }
-                            })}
-                        </div>
-                    </div>
-                </div>
             </div>
-        </nav>
+        </nav >
     )
 }

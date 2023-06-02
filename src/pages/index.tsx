@@ -11,19 +11,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="flex flex-col items-center gap-2">
-          <div className="bg-sky-400 rounded-lg mt-3 content-center text-center justify-center">
-            <div>
-              <h1 className="text-4xl font-bold text-white text-center p-3">Shop with T3 stack and Stripe</h1>
-            </div>
-          </div>
-          <div className="gallery-container">
-            {/* Replace this image gallery with something else its broken if the images are different sizes */}
-            {/* <ImageGallery items={GalleryPhotos} showPlayButton={false} autoPlay={true} showFullscreenButton={false} /> */}
-          </div>
-          <HomePage />
-        </div>
-      </main>
+
+        <HomePage />
+
+      </main >
     </>
   );
 };
