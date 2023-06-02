@@ -61,23 +61,23 @@ export default function KrmilnikiElement({ item }: { item: { name: string, link:
                                                 <Image src={"https://media.elektor.com/media/catalog/product/cache/9cc822bfc6a57f9729d464b8b5e0e0df/j/o/joy-it-nodemcu-esp32-development-board.png"} alt='fknarduino' width={100} height={100} />
                                             </div>
                                             <div className='text-black font-medium text-md'>
-                                                <Link href={"/esp32"}>ESP32</Link>
+                                                <Link href={"/category/esp32"}>ESP32</Link>
                                             </div>
                                             <div className='flex-col space-y-1 text-sm text-slate-400'>
                                                 <div>
-                                                    <Link href={"/esp32"}>Wroom32</Link>
+                                                    <Link href={"/subcategory/esp32"}>Wroom32</Link>
                                                 </div>
                                                 <div>
-                                                    <Link href={"/esp32"}>S3</Link>
+                                                    <Link href={"/subcategory/esp32"}>S3</Link>
                                                 </div>
                                                 <div>
-                                                    <Link href={"/esp32"}>Wroom32U</Link>
+                                                    <Link href={"/subcategory/esp32"}>Wroom32U</Link>
                                                 </div>
                                                 <div>
-                                                    <Link href={"/esp32"}>Wroom32D</Link>
+                                                    <Link href={"/subcategory/esp32"}>Wroom32D</Link>
                                                 </div>
                                                 <div>
-                                                    <Link href={"/esp32"}>Wroom32E</Link>
+                                                    <Link href={"/subcategory/esp32"}>Wroom32E</Link>
                                                 </div>
                                             </div>
 

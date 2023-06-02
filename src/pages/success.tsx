@@ -22,7 +22,7 @@ export default function Success() {
             toast.success("Payment successful");
             setTimeout(() => {
                 router.push(`/orders/}`).catch((err) => {
-                    toast.error(err.message as string);
+                    toast.error(err as string);
                 });
             }, 3000);
         }

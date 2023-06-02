@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
     previewFeatures = ["jsonProtocol"]
 }
 
@@ -64,4 +64,37 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Category {
+    id            String        @id @default(cuid())
+    name          String
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
+    products      Product[]     @relation("CategoryToProduct")
+    subcategories Subcategory[] @relation("CategoryToSubcategory")
+}
+
+model Subcategory {
+    id         String    @id @default(cuid())
+    name       String
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+    products   Product[] @relation("SubcategoryToProduct")
+    category   Category? @relation("CategoryToSubcategory", fields: [categoryId], references: [id])
+    categoryId String?
+}
+
+model Product {
+    id            String       @id @default(cuid())
+    name          String
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    category      Category?    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+    subcategory   Subcategory? @relation("SubcategoryToProduct", fields: [subcategoryId], references: [id])
+    categoryId    String?
+    subcategoryId String?
+    price         Float
+    default_price String
+    description   String
 }

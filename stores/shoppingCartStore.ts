@@ -46,6 +46,10 @@ export const shoppingCartSlice = createSlice({
 
             }
         },
+        updateCart(state, action: { payload: CustomProduct[] }) {
+            const items = action.payload;
+            state.items = items;
+        },
         removeFromCart(state, action: { payload: CustomProduct; }) {
             const item = action.payload;
             const existingItem = state.items.find((itemTemp) => item.default_price === itemTemp.default_price);

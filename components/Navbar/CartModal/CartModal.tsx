@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import type Stripe from 'stripe';
 import { api } from '@/utils/api';
 import toast from 'react-hot-toast';
@@ -7,27 +7,25 @@ import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { useStripe } from '@stripe/react-stripe-js';
 import type CustomProduct from 'types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { shoppingCartSlice } from 'stores/shoppingCartStore';
+import { RootState } from 'stores/shoppingCartStore';
 export default function CartModal({ setShowModal }: { setShowModal: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const [cart, setCart] = React.useState<CustomProduct[]>([]);
+    const [cart, setCart] = useState<CustomProduct[]>([]);
     const stripePromise = useStripe();
-    //!!todo this is just for testing
 
+    //!!todo this is just for testing
+    const cartSelector = useSelector((state: RootState) => state.items);
     const dispatch = useDispatch();
     //NextAuth session context provider
     const { data: sessionData } = useSession();
-    const { data: productsData } = api.products.getAll.useQuery(
-        undefined, // no input
-        { enabled: sessionData?.user !== undefined },
-    )
+
     const checkout = api.payment.createCheckout.useMutation();
     useEffect(() => {
         const data = localStorage.getItem('storeCart')
         if (data) {
             setCart(JSON.parse(data) as CustomProduct[])
         }
-
     }, []);
     const handleRemoveItem = (e: MouseEvent, item
         : CustomProduct) => {
@@ -45,6 +43,21 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         }
 
     }
+
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, item: CustomProduct) => {
+        const data = localStorage.getItem('storeCart')
+        if (data) {
+            const cart = JSON.parse(data) as CustomProduct[]
+            const newCart = cart.map((cartItem) => {
+                if (cartItem.id === item.id) {
+                    cartItem.quantity = Number(e.target.value)
+                }
+                return cartItem
+            })
+            localStorage.setItem('storeCart', JSON.stringify(newCart))
+            dispatch(shoppingCartSlice.actions.updateCart(newCart))
+        }
+    }
     const handleCheckout = async () => {
         // Quantity state is passed to the backend
         // Product id is passed to the backend
@@ -55,7 +68,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         toast.success("Redirecting to checkout page");
         const response = await checkout.mutateAsync({
             //Because the product type does not have a quantity property it is added here and the error appears
-            products: cart as Stripe.Product[],
+            products: cartSelector,
             email: sessionData?.user?.email as string,
         });
         const stripe = stripePromise;
@@ -90,7 +103,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
                                         </tr>
                                         {/*Table body */}
 
-                                        {cart.map((item, index) => {
+                                        {cartSelector.map((item, index) => {
                                             return (
                                                 <tr className="border-b text-black hover:bg-orange-100 bg-gray-100" key={index}>
                                                     <td className="p-3 px-5">
@@ -105,7 +118,9 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
                                                         <div className="">{"Price"}</div>
                                                     </td>
                                                     <td className="p-3 px-5">
-                                                        <input type='number' className="w-10 border text-center" value={item.quantity} />
+                                                        <input type='number' onChange={(e) => {
+                                                            handleQuantityChange(e, item)
+                                                        }} min={1} className="w-10 border text-center" value={item.quantity} />
                                                     </td>
                                                     <td className="p-3 px-5">
                                                         <div className="">{item.name}</div>

@@ -38,11 +38,6 @@ export default function HomePage() {
                             <div className='flex'>
                                 {/*!TODO Fix the field conflict */}
                                 <ProductAddButton product={product} />
-                                <div>
-                                    <div className="box-content pb-3">
-                                        <input className="w-16 text-center content-center h-10 border-2 border-gray-200 rounded-md" type="number" defaultValue={1} />
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
