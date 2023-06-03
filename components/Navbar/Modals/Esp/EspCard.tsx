@@ -7,7 +7,7 @@ export default function EspCard({ item }: { item: DropDownItem }) {
     return (
         <div onClick={() => {
             router.push(`/esp/${item.name}`).catch(err => console.log(err))
-        }} className='box-content w-32 h-32 p-6 cursor-pointer hover:shadow-2xl duration-300'>
+        }} className='box-content w-32 h-32 p-6 cursor-pointer hover:shadow-xl rounded-lg duration-300'>
             <div className='w-32 h-32  rounded-xl'>
                 <Image src={item.image} width={300} height={300} alt={item.name} />
             </div>
