@@ -73,6 +73,7 @@ model Category {
     updatedAt     DateTime      @updatedAt
     products      Product[]     @relation("CategoryToProduct")
     subcategories Subcategory[] @relation("CategoryToSubcategory")
+    link          String
 }
 
 model Subcategory {
@@ -83,6 +84,7 @@ model Subcategory {
     products   Product[] @relation("SubcategoryToProduct")
     category   Category? @relation("CategoryToSubcategory", fields: [categoryId], references: [id])
     categoryId String?
+    link       String
 }
 
 model Product {

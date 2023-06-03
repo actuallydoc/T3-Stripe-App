@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { shoppingCartSlice } from 'stores/shoppingCartStore'
-import Stripe from 'stripe'
 import type CustomProduct from 'types'
 
-export default function ProductAddButton({ product }: { product: Stripe.Product }) {
+export default function ProductAddButton({ product }: { product: CustomProduct }) {
     const [quantity, setQuantity] = useState(1)
     const dispatch = useDispatch()
 
@@ -43,15 +42,15 @@ export default function ProductAddButton({ product }: { product: Stripe.Product 
 
     return (
         <div className='flex space-x-5'>
-            <div>
+            <div className=''>
                 <button onClick={() => {
                     handleAddToCart(product)
                     resetQuantity()
-                }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                }} className="bg-[#10A293] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded">
                     Dodaj v košarico
                 </button>
             </div>
-            <div className="box-content pb-3">
+            <div className="">
                 <input min={1} onChange={handleQuantityChange} className="w-16 text-center content-center h-10 border-2 border-gray-200 rounded-md" type="number" value={quantity} />
             </div>
 

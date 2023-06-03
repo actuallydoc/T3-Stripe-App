@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import type { DropDownItem } from 'types'
 import EspCard from './EspCard'
-
+import { api } from '@/utils/api'
 const EspItems: DropDownItem[] = [
     {
         name: 'ESP32',
@@ -19,19 +19,16 @@ const EspItems: DropDownItem[] = [
         name: 'ESP8265',
         link: '/esp/esp8265',
         image: '/8265.jpg'
-    },
-    {
-        name: 'ESP32-S2',
-        link: '/esp/esp32-s2',
-        image: ""
     }
 ]
 
 export default function EspModal({ item }: { item: { name: string, link: string } }) {
     const [espDropDown, setEspDropDown] = React.useState(false)
+
     return (
         <div>
             <div onMouseEnter={() => {
+
                 setEspDropDown(true)
             }} className='p-2 rounded-xl hover:translate-x-1 duration-300 '>
                 <Link href={item.link}>{item.name}</Link>
