@@ -85,6 +85,7 @@ model Subcategory {
     category   Category? @relation("CategoryToSubcategory", fields: [categoryId], references: [id])
     categoryId String?
     link       String
+    image      String
 }
 
 model Product {
