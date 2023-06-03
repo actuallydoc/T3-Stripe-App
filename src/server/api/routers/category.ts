@@ -8,16 +8,24 @@ import { prisma } from "@/server/db";
 
 export const categoryRouter = createTRPCRouter({
     getCategoryItems: publicProcedure
-        .input(z.object({ id: z.string() }))
+        .input(z.object({ name: z.string() }))
         .query(async ({ input }) => {
+            const name = input.name.charAt(0).toUpperCase() + input.name.slice(1);
+            console.log(name);
             const categoryItems = await prisma.category.findFirst({
                 where: {
-                    name: input.id.toUpperCase(),
+                    name: name
                 },
                 include: {
                     products: true,
                 },
             });
-            return { categoryItems };
+            const products = await prisma.product.findMany({
+                where: {
+                    categoryId: categoryItems?.id
+                }
+            })
+            console.log(products);
+            return { categoryItems, products };
         }),
 });

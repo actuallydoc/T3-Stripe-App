@@ -39,18 +39,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (err instanceof Error) message = err.message;
             return res.status(400).send(`Webhook error: ${message}`);
         }
-
         switch (event.type) {
             case "checkout.session.completed":
                 //You can hit ur database, other apis, etc. here
                 const session = event.data.object as Stripe.Checkout.Session;
-                console.log(session.line_items?.data[0]?.description);
+                console.log("Checkout session completed");
+                console.log(session);
                 break;
             case "payment_intent.succeeded":
                 const paymentIntent = event.data.object as Stripe.PaymentIntent;
-                console.log(paymentIntent.description);
-                break;
+                console.log(paymentIntent)
 
+                break;
+            case "charge.succeeded":
+                const charge = event.data.object as Stripe.Charge;
+                console.log("Charge was successful!");
+                charge.receipt_email
+                charge.amount
+                charge.currency
+                break;
             default:
                 console.log(`Unhandled event type ${event.type}`);
         }

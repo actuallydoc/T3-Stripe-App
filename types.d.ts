@@ -12,3 +12,17 @@ export interface DropDownItem {
     link: string,
     image: string
 }
+
+export interface Product {
+    id: string,
+    name: string,
+    price: number,
+    image: string,
+    description: string,
+    categoryId: string,
+    subcategoryId: string,
+    createdAt: Date,
+    updatedAt: Date,
+    categoryId: string,
+    stock: number,
+}

@@ -7,6 +7,8 @@ import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { api } from '@/utils/api';
 import { useStripe } from '@stripe/react-stripe-js';
+
+//Not a fan of this i might just have the modal
 export default function Cart() {
     const cart = useSelector((state: RootState) => state.items);
     const { data: sessionData } = useSession();

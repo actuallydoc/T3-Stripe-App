@@ -101,4 +101,5 @@ model Product {
     default_price String
     description   String
     stock         Int
+    image         String?
 }
