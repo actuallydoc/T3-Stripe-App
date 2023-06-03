@@ -41,7 +41,7 @@ export const paymentRouter = createTRPCRouter({
         //This is the stripe checkout session create procedure you can made a custom checkout session here with custom fields that stripe provides
         return stripe.checkout.sessions.create({
             mode: "payment",
-            payment_method_types: ["card", "paypal"],
+            payment_method_types: ["afterpay_clearpay", "card", "paypal"],
             shipping_address_collection: {
                 allowed_countries: ["SI"],
             },

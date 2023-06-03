@@ -100,4 +100,5 @@ model Product {
     price         Float
     default_price String
     description   String
+    stock         Int
 }

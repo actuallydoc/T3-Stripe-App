@@ -21,6 +21,7 @@ export default function Success() {
         if (session.data?.email) {
             toast.success("Payment successful");
             setTimeout(() => {
+                //Redirect the user to the order page with the order data
                 router.push(`/orders/}`).catch((err) => {
                     toast.error(err as string);
                 });

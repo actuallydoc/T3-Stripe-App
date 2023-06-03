@@ -41,7 +41,6 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         }
 
     }
-
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, item: CustomProduct) => {
         const data = localStorage.getItem('storeCart')
         if (data) {
