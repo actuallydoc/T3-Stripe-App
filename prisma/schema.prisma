@@ -68,7 +68,7 @@ model VerificationToken {
 
 model Category {
     id            String        @id @default(cuid())
-    name          String
+    name          String        @unique
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @updatedAt
     products      Product[]     @relation("CategoryToProduct")
@@ -78,7 +78,7 @@ model Category {
 
 model Subcategory {
     id         String    @id @default(cuid())
-    name       String
+    name       String    @unique
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
     products   Product[] @relation("SubcategoryToProduct")

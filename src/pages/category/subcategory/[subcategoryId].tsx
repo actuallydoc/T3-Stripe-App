@@ -6,12 +6,12 @@ import type { Product } from 'types';
 
 
 
-export default function CategoryPage() {
+export default function SubCategoryPage() {
     const router = useRouter();
-    const { categoryId } = router.query;
+    const { subcategoryId } = router.query;
     //Fetch items for the category from backend
-    const { data: categoryProducts } = api.category.getCategoryItems.useQuery(
-        { name: categoryId as string },
+    const { data: categoryProducts } = api.category.getSubCategoryItems.useQuery(
+        { name: subcategoryId as string },
         { enabled: router.isReady, refetchOnWindowFocus: false },
     )
 
@@ -21,7 +21,7 @@ export default function CategoryPage() {
     //!TODO Make category page with subcategories header and products grid , filter and sort options
     return (
         <div>
-            <h1 className='text-3xl font-bold'>{categoryId}</h1>
+            <h1 className='text-3xl font-bold'>{subcategoryId}</h1>
             <div className='grid grid-cols-4 gap-4'>
                 {categoryProducts?.categoryItems.map((product: Product, index) => {
                     return (

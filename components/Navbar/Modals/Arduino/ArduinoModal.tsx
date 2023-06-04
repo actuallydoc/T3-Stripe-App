@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import ArduinoCard from './ArduinoCard'
 import type { DropDownItem } from '@/../types'
+import SubCategoryCard from '../SubCategoryCard'
 
 const ArduinoItems: DropDownItem[] = [
     {
@@ -59,7 +60,8 @@ export default function ArduinoModal({ item }: { item: { name: string, link: str
                             {ArduinoItems.map((item: DropDownItem, index: number) => {
                                 return (
                                     <div key={index}>
-                                        <ArduinoCard key={index} item={item} />
+                                        <SubCategoryCard item={item} categoryName='arduino' />
+                                        {/* <ArduinoCard key={index} item={item} /> */}
                                     </div>
                                 )
                             })}

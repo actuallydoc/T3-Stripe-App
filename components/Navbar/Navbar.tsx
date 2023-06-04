@@ -1,5 +1,5 @@
 'use client';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import ArduinoModal from './Modals/Arduino/ArduinoModal'
 import EspModal from './Modals/Esp/EspModal';
@@ -54,6 +54,9 @@ export default function Navbar() {
             staleTime: 1000 * 60 * 60 * 24,
         }
     )
+    useEffect(() => {
+        console.log(categoryData)
+    }, [categoryData])
     return (
         <nav className=''>
             <div className="flex space-x-20 gap-1 justify-center items-center  h-16  text-black relative shadow-xl rounded-b-xl font-semibold " role="navigation">
