@@ -17,6 +17,9 @@ export const categoriesRouter = createTRPCRouter({
                 category: {
                     name: input.name
                 }
+            },
+            include: {
+                category: true
             }
         });
     }),

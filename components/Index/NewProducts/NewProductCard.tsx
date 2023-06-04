@@ -4,8 +4,6 @@ import type Stripe from 'stripe'
 import ProductAddButton from 'components/Products/ProductAddButton'
 import type CustomProduct from 'types'
 // import ProductAddButton from 'components/Products/ProductAddButton'
-
-
 //!TEMP PROP ITEM TYPE
 export default function NewProductCard({ item }: { item: Stripe.Product }) {
     return (

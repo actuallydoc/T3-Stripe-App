@@ -11,6 +11,9 @@ export interface DropDownItem {
     name: string,
     link: string,
     image: string
+    category: {
+        name: string
+    }
 }
 
 export interface Product {
