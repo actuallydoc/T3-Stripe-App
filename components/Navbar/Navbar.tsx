@@ -1,44 +1,10 @@
 'use client';
 import React, { useEffect } from 'react'
-
-import ArduinoModal from './Modals/Arduino/ArduinoModal'
-import EspModal from './Modals/Esp/EspModal';
 import { api } from '@/utils/api';
 import { useRouter } from 'next/router';
 import SubCategoryModal from './Modals/SubCategoryModal';
 
 
-
-const NavTabItems = [
-    {
-        name: "Novo!",
-        link: "/"
-    },
-    {
-        name: "Arduino",
-        link: "/arduino"
-    },
-    {
-        name: "ESP",
-        link: "/esp"
-    },
-    {
-        name: "STM",
-        link: "/stm"
-    },
-    {
-        name: "Micro:bit",
-        link: "/microbit"
-    },
-    {
-        name: "Raspberry Pi",
-        link: "/raspberrypi"
-    },
-    {
-        name: "Moduli & Dodatki",
-        link: "/moduli"
-    }
-]
 
 const scrollToSection = () => {
     const section = document.getElementById('novo-section')
@@ -52,7 +18,6 @@ export default function Navbar() {
         {
             enabled: router.isReady,
             refetchOnWindowFocus: false,
-            staleTime: 1000 * 60 * 60 * 24,
         }
     )
     useEffect(() => {

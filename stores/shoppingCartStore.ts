@@ -1,38 +1,29 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
-
-import type CustomProduct from "types";
-
-
-
+import { type CartItem } from "types";
 export const shoppingCartSlice = createSlice({
     name: "shoppingCart",
     initialState: {
         //Get the items from local storage if there are any
-        items: [] as CustomProduct[],
+        items: [] as CartItem[],
     },
     reducers: {
-        initializeCart(state, action: { payload: CustomProduct[]; }) {
-
-
+        initializeCart(state, action: { payload: CartItem[]; }) {
             state.items = action.payload;
-
         },
-        addToCart(state, action: { payload: CustomProduct; }) {
-            const item = action.payload;
+        addToCart(state, action: { payload: { item: CartItem, quantity: number } }) {
+            const { item, quantity } = action.payload;
             const existingItem = state.items.find((itemTemp) => itemTemp.default_price === item.default_price);
-
             if (existingItem === undefined) {
-
-
                 state.items.push({
-                    ...item,
+                    default_price: item.default_price,
+                    description: item.description,
+                    image: item.image,
+                    name: item.name,
+                    price: item.price,
+                    quantity: quantity,
                 });
             }
             else {
-                //iTEM ALREADY EXISTS
-
-
-
                 existingItem.quantity++;
                 //Replace the item in the array
                 const tempItems = state.items.map((item) => {
@@ -43,14 +34,13 @@ export const shoppingCartSlice = createSlice({
                 }
                 );
                 state.items = tempItems;
-
             }
         },
-        updateCart(state, action: { payload: CustomProduct[] }) {
+        updateCart(state, action: { payload: CartItem[] }) {
             const items = action.payload;
             state.items = items;
         },
-        removeFromCart(state, action: { payload: CustomProduct; }) {
+        removeFromCart(state, action: { payload: CartItem; }) {
             const item = action.payload;
             const existingItem = state.items.find((itemTemp) => item.default_price === itemTemp.default_price);
             if (existingItem) {

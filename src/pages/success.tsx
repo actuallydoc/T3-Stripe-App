@@ -22,6 +22,7 @@ export default function Success() {
             toast.success("Payment successful");
             setTimeout(() => {
                 //Redirect the user to the order page with the order data
+                localStorage.setItem("storeCart", JSON.stringify([]));
                 router.push(`/order/${sessionId}}`).catch((err) => {
                     toast.error(err as string);
                 });

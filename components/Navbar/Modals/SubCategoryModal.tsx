@@ -1,7 +1,8 @@
-import Link from 'next/link'
+
 import React, { useState } from 'react'
 import SubCategoryCard from './SubCategoryCard'
 import { api } from '@/utils/api'
+import { useRouter } from 'next/router'
 
 export default function SubCategoryModal({ item }: { item: { name: string, link: string, navbarName: string } }) {
     const [categoryDropDown, setCategoryDropDown] = useState(false)
@@ -9,7 +10,7 @@ export default function SubCategoryModal({ item }: { item: { name: string, link:
         { name: item.name },
         { enabled: true, refetchOnWindowFocus: false }
     )
-
+    const router = useRouter()
     const handleMouseEnter = () => {
         setCategoryDropDown(true);
     }
@@ -25,7 +26,9 @@ export default function SubCategoryModal({ item }: { item: { name: string, link:
                 onMouseLeave={handleMouseLeave}
                 className='p-2 rounded-xl hover:translate-x-1 duration-300 '
             >
-                <Link href={"/category/" + item.link}>{item.navbarName}</Link>
+                <div onClick={() => {
+                    router.push(`/category` + item.link).catch(err => console.log(err))
+                }}>{item.navbarName}</div>
             </div>
             <div className=''>
                 {categoryDropDown && (

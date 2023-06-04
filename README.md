@@ -17,6 +17,9 @@ Before running the application, ensure you have the following installed on your 
 
 - Node.js (version 14 or later)
 - npm (Node Package Manager)
+- Stripe CLI (optional)
+- Stripe account with products
+- Stripe test API keys
 ## Getting Started
 1. Clone the repository:
 
@@ -47,7 +50,12 @@ Before running the application, ensure you have the following installed on your 
    Then, edit the `.env` file and add the required environment variables.
    The `.env.example` contain's the required variables for the app to work.
 
+# Warning
+Your database has to be in sync with stripe products otherwise the app will not work properly. To sync your database with stripe products you need to do the following:
+1. Create a stripe product
+2. Insert the product default_price field in the database (other fields are optional but required for the app to work properly)
 # Usage
+
 
 Once the application is up and running, you can explore its features:
 

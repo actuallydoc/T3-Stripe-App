@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { shoppingCartSlice } from 'stores/shoppingCartStore'
-import type CustomProduct from 'types'
+import type { CartItem } from 'types'
 
-export default function ProductAddButton({ product }: { product: CustomProduct }) {
+export default function ProductAddButton({ product }: { product: CartItem }) {
     const [quantity, setQuantity] = useState(1)
     const dispatch = useDispatch()
 
@@ -14,32 +14,46 @@ export default function ProductAddButton({ product }: { product: CustomProduct }
     const resetQuantity = () => {
         setQuantity(1)
     }
-    const handleAddToCart = (item: CustomProduct) => {
-        const data = localStorage.getItem('storeCart')
-        if (data) {
-            //Check if the item is already in the cart
-            const cart = JSON.parse(data) as CustomProduct[]
-            const itemInCart = cart.find((cartItem) => cartItem.default_price === item.default_price)
-            if (itemInCart) {
-                //Increase the quantity of the item in the cart
-                itemInCart.quantity += quantity
-                console.log(itemInCart)
-                localStorage.setItem('storeCart', JSON.stringify(cart))
-                dispatch(shoppingCartSlice.actions.addToCart(itemInCart))
-                return toast.success("Increase the quantity of the item in the cart");
+    //!TODO CART IS BROKEN FIX IT ITEM COUNT QUANTITY IS BROKEN WHEN U ADD THE SECOND TIME WITH THE BUTTTON
+    const handleAddToCart = (product: CartItem) => {
+        const cart = localStorage.getItem('storeCart');
+        if (cart) {
+            const parsedCart = JSON.parse(cart) as CartItem[]
+            const foundItem = parsedCart.find((item: CartItem) => item.name === product.name)
+            if (foundItem) {
+                foundItem.quantity += quantity
+                localStorage.setItem('storeCart', JSON.stringify(parsedCart))
+                dispatch(shoppingCartSlice.actions.addToCart({
+                    item: foundItem,
+                    quantity: quantity
+                }))
+                toast.success('Izdelek dodan v košarico')
+                return
             } else {
-                //Add the item to the cart
-                item.quantity = quantity
-                cart.push(item)
-                localStorage.setItem('storeCart', JSON.stringify(cart))
-                dispatch(shoppingCartSlice.actions.addToCart(item))
-                return toast.success("Item added to cart");
+                parsedCart.push(product)
+                localStorage.setItem('storeCart', JSON.stringify(parsedCart))
+                dispatch(shoppingCartSlice.actions.addToCart({
+                    item: product,
+                    quantity: quantity
+                }))
+                toast.success('Izdelek dodan v košarico')
+                return
             }
-
-        } else {
         }
-    }
 
+        // dispatch(shoppingCartSlice.actions.addToCart(product))
+
+        if (cart) {
+            const parsedCart = JSON.parse(cart) as CartItem[]
+            parsedCart.push(product)
+            localStorage.setItem('storeCart', JSON.stringify(parsedCart))
+            toast.success('Izdelek dodan v košarico')
+        } else {
+            localStorage.setItem('storeCart', JSON.stringify([product]))
+            toast.success('Izdelek dodan v košarico')
+        }
+
+    }
     return (
         <div className='flex space-x-5'>
             <div className=''>

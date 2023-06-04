@@ -4,15 +4,14 @@ import { api } from '@/utils/api';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { useStripe } from '@stripe/react-stripe-js';
-import type CustomProduct from 'types';
 import { useDispatch, useSelector } from 'react-redux';
 import { shoppingCartSlice } from 'stores/shoppingCartStore';
 import type { RootState } from 'stores/shoppingCartStore';
+import type { CartItem } from 'types';
 export default function CartModal({ setShowModal }: { setShowModal: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const [cart, setCart] = useState<CustomProduct[]>([]);
+    const [cart, setCart] = useState<CartItem[]>([]);
     const stripePromise = useStripe();
 
-    //!!todo this is just for testing
     const cartSelector = useSelector((state: RootState) => state.items);
     const dispatch = useDispatch();
     //NextAuth session context provider
@@ -22,16 +21,17 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
     useEffect(() => {
         const data = localStorage.getItem('storeCart')
         if (data) {
-            setCart(JSON.parse(data) as CustomProduct[])
+            setCart(JSON.parse(data) as CartItem[])
         }
     }, []);
     const handleRemoveItem = (e: MouseEvent, item
-        : CustomProduct) => {
+        : CartItem) => {
         e.preventDefault();
         const data = localStorage.getItem('storeCart')
         if (data) {
-            const cart = JSON.parse(data) as CustomProduct[]
-            const newCart = cart.filter((cartItem) => cartItem.id !== item.id)
+            const cart = JSON.parse(data) as CartItem[]
+            console.log(cart)
+            const newCart = cart.filter((cartItem) => cartItem.default_price !== item.default_price)
             localStorage.setItem('storeCart', JSON.stringify(newCart))
             setCart(newCart)
             toast.success("Item removed from cart");
@@ -41,12 +41,12 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
         }
 
     }
-    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, item: CustomProduct) => {
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, item: CartItem) => {
         const data = localStorage.getItem('storeCart')
         if (data) {
-            const cart = JSON.parse(data) as CustomProduct[]
+            const cart = JSON.parse(data) as CartItem[]
             const newCart = cart.map((cartItem) => {
-                if (cartItem.id === item.id) {
+                if (cartItem.default_price === item.default_price) {
                     cartItem.quantity = Number(e.target.value)
                 }
                 return cartItem
@@ -107,7 +107,7 @@ export default function CartModal({ setShowModal }: { setShowModal: React.Dispat
                                                 <tr className="border-b text-black hover:bg-orange-100 bg-gray-100" key={index}>
                                                     <td className="p-3 px-5">
                                                         <div className="flex align-items-center">
-                                                            <Image className="rounded-full w-10 h-10 object-cover" src={item.images[0] as string} alt="" width={60} height={60} />
+                                                            <Image className="rounded-full w-10 h-10 object-cover" src={item.image} alt="" width={60} height={60} />
                                                             <div className="ml-3">
                                                                 <div className="">{item.name}</div>
                                                             </div>
