@@ -9,7 +9,7 @@ const config = {
 
   reactStrictMode: true,
   images: {
-    domains: ["cdn.discordapp.com", 'files.stripe.com', "cdn.sparkfun.com", "www.3dsvet.eu", "lh3.googleusercontent.com", "m.media-amazon.com", "www.pngfind.com", "media.elektor.com", "asset.conrad.com", "si.farnell.com"],
+    domains: ["*", "d1wqzb5bdbcre6.cloudfront.net", "cdn.discordapp.com", 'files.stripe.com', "cdn.sparkfun.com", "www.3dsvet.eu", "lh3.googleusercontent.com", "m.media-amazon.com", "www.pngfind.com", "media.elektor.com", "asset.conrad.com", "si.farnell.com"],
 
   },
   /**

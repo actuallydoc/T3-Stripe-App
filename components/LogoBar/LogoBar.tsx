@@ -4,6 +4,8 @@ import { useSession, signIn } from 'next-auth/react'
 import React, { useState } from 'react'
 import LocationButton from './Elements/LocationButton';
 import ContactElement from './Elements/ContactElement';
+import { CartSheet } from './CartModal/CartSheet';
+import { SheetTrigger } from 'components/ui/sheet';
 const NavUserItems = [
     {
         name: "Pomoč",
@@ -49,7 +51,9 @@ export default function LogoBar({ setOpenCart }: { setOpenCart: React.Dispatch<R
                                                 return <LocationButton key={index} />;
                                             }
                                             else if (item.name === "Košarica") {
-                                                return <CartElement openCart={setOpenCart} key={index} itemCount={itemCount} />
+                                                return (
+                                                    <CartSheet key={index} />
+                                                )
                                             }
                                         return (
                                             <div key={index} className='p-2 rounded-xl hover:bg-sky-400 duration-300 hover:text-slate-300'>
@@ -71,9 +75,8 @@ export default function LogoBar({ setOpenCart }: { setOpenCart: React.Dispatch<R
                                         }
                                         else if (item.name === "Košarica") {
                                             return (
-                                                <div key={index} className=''>
-                                                    <CartElement openCart={setOpenCart} itemCount={itemCount} />
-                                                </div>)
+                                                <CartSheet key={index} />
+                                            )
                                         }
                                     }
                                 })}

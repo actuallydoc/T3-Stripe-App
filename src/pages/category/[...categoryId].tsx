@@ -23,10 +23,13 @@ export default function CategoryPage() {
         { enabled: router.isReady, refetchOnWindowFocus: false },
     )
     //!TODO Fetch subcategories for the category from backend broken for now 
-    const { data: subcategories } = api.categories.getSubCategores.useQuery(
-        { name: categoryId as string },
-        { enabled: router.isReady, refetchOnWindowFocus: false },
-    )
+    //! Probably mutation procedure is better for this
+    // if (!Array.isArray(categoryId)) {
+    //     const { data: subcategories } = api.categories.getSubCategores.useQuery(
+    //         { name: categoryId as string },
+    //         { enabled: router.isReady, refetchOnWindowFocus: false },
+    //     )
+    // }
 
     useEffect(() => {
         if (isFetched) {
@@ -51,7 +54,8 @@ export default function CategoryPage() {
             </div>
             <div className='flex-col'>
                 <div>
-                    <Header subcategories={subcategories as Subcategory[]} />
+                    {/*Best way to get subcategories from db would be to store it in a redux state 😏*/}
+                    {/* <Header subcategories={subcategories as Subcategory[]} /> */}
                 </div>
                 <div className='grid grid-cols-4 gap-4 pt-10'>
                     {items?.map((product: CartItem, index) => {

@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import type { RootState } from 'stores/shoppingCartStore'
-export default function CartElement({ openCart }: { itemCount: number, openCart: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function CartElement() {
     const handleOpenCart = () => {
-        openCart(true)
+        // openCart(true)
     }
     const storeSelector = useSelector((state: RootState) => state.items.length)
 
