@@ -1,9 +1,14 @@
+import { WebhookClient, EmbedBuilder, MessagePayload, GuildTextBasedChannel } from "discord.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Stripe } from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: "2022-11-15",
 });
+const wbClient = new WebhookClient({
+    url: process.env.DISCORD_WEBHOOK_URL as string,
+})
+const emb = new EmbedBuilder()
 //Buffer function that handles the request body the Stripe api needs (webhook signing)
 const buffer = (req: NextApiRequest) => {
     return new Promise<Buffer>((resolve, reject) => {
@@ -44,7 +49,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 //You can hit ur database, other apis, etc. here
                 const session = event.data.object as Stripe.Checkout.Session;
                 console.log("Checkout session completed");
-                console.log(session);
                 break;
             case "payment_intent.succeeded":
                 const paymentIntent = event.data.object as Stripe.PaymentIntent;
@@ -54,13 +58,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             case "charge.succeeded":
                 const charge = event.data.object as Stripe.Charge;
                 console.log("Charge was successful!");
-                charge.receipt_email
-                charge.amount
-                charge.currency
+                emb.addFields({
+                    name: "New order",
+                    value: `New order from ${charge.billing_details.name as string} for ${charge.amount / 100}€`,
+                })
+                emb.addFields({
+                    name: "Address",
+                    value: `${charge.billing_details.address?.line1 as string}, ${charge.billing_details.address?.city ? charge.billing_details.address.city : "No Billing City"}, ${charge.billing_details.address?.country ? charge.billing_details.address.country : "No Billing Country"}`,
+                })
+                emb.addFields({
+                    name: "Items",
+                    value: `${charge.description as string}`,
+                })
+                await wbClient.send({
+                    embeds: [emb]
+                });
+
                 break;
             default:
                 console.log(`Unhandled event type ${event.type}`);
         }
+
     }
 
 

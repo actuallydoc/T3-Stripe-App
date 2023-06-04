@@ -5,7 +5,6 @@ import {
     protectedProcedure,
 } from "@/server/api/trpc";
 import Stripe from "stripe";
-import { CartItem } from "@/../types";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: "2022-11-15",
 });

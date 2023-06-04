@@ -5,6 +5,7 @@ import {
     publicProcedure,
 } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
+import type { Product } from "@prisma/client";
 
 export const categoryRouter = createTRPCRouter({
     getCategoryItems: publicProcedure
@@ -25,7 +26,8 @@ export const categoryRouter = createTRPCRouter({
                 if (!categoryItems) {
                     throw new Error("Category not found");
                 } else {
-                    return { categoryItems: categoryItems?.products };
+                    console.log(categoryItems);
+                    return { categoryItems: categoryItems?.products as Product[] };
                 }
             } else if (input.name.length === 2) {
                 const categoryItems = await prisma.subcategory.findUnique({
@@ -39,8 +41,11 @@ export const categoryRouter = createTRPCRouter({
                 if (!categoryItems) {
                     throw new Error("Subcategory not found");
                 } else {
-                    return { categoryItems: categoryItems?.products };
+                    console.log(categoryItems);
+                    return { categoryItems: categoryItems?.products as Product[] };
                 }
+            } else {
+                throw new Error("Invalid category or too many categories specified");
             }
 
         })
