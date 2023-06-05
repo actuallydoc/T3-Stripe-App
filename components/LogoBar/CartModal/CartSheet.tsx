@@ -56,7 +56,7 @@ export function CartSheet() {
         }
 
     }
-    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, item: CartItem) => {
+    const handleQuantityChange = (e: React.MouseEvent<HTMLInputElement>, item: CartItem) => {
         const data = localStorage.getItem('storeCart')
         if (data) {
             const cart = JSON.parse(data) as CartItem[]

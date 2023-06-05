@@ -15,14 +15,12 @@ export default function CategoryPage() {
     const [items, setItems] = React.useState<CartItem[]>([]);
     const router = useRouter();
     const { categoryId } = router.query;
-    const cartSelector = useSelector((state: RootState) => state.items);
-    const dispatch = useDispatch();
     //Fetch items for the category from backend
     const { data: categoryProducts, isFetched } = api.category.getCategoryItems.useQuery(
         { name: categoryId as string[] },
         { enabled: router.isReady, refetchOnWindowFocus: false },
     )
-    //!TODO Fetch subcategories for the category from backend broken for now 
+    //!TODO Fetch subcategories for the category from backend broken for now / use redux?
     //! Probably mutation procedure is better for this
     // if (!Array.isArray(categoryId)) {
     //     const { data: subcategories } = api.categories.getSubCategores.useQuery(

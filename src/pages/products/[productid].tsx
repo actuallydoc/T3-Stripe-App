@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { api } from '@/utils/api'
 import ProductAddButton from 'components/Products/ProductAddButton';
 import ProductImageSlider from 'components/Products/ProductImageSlider';
+import type { CartItem } from 'types';
 export default function ProductDetails() {
 
     const router = useRouter();
@@ -28,7 +29,7 @@ export default function ProductDetails() {
                             </div>
                             <div>
                                 {/*!TODO Fix the field conflict */}
-                                <ProductAddButton product={productData.product} />
+                                <ProductAddButton product={productData.product as unknown as CartItem} />
                             </div>
                             <div>
                                 <p className='text-xl font-bold'>Opis</p>
