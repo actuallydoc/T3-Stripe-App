@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import HomePage from "components/Index/Header/HomePage";
 
-//!TODO Maybe use Redux for everything so you dont need to refetch data on every page
+// TODO Maybe use Redux for everything so you dont need to refetch data on every page? 
 const Home: NextPage = () => {
   return (
     <>

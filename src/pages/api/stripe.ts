@@ -1,4 +1,4 @@
-import { WebhookClient, EmbedBuilder, MessagePayload, GuildTextBasedChannel } from "discord.js";
+import { WebhookClient, EmbedBuilder } from "discord.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Stripe } from "stripe";
 
@@ -48,6 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             case "checkout.session.completed":
                 //You can hit ur database, other apis, etc. here
                 const session = event.data.object as Stripe.Checkout.Session;
+                console.log(session)
                 console.log("Checkout session completed");
                 break;
             case "payment_intent.succeeded":

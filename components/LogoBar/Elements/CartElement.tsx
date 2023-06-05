@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import type { RootState } from 'stores/shoppingCartStore'

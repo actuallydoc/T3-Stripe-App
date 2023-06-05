@@ -28,8 +28,7 @@ export default function Success() {
                 });
             }, 3000);
         }
-    }, [session, router]);
-
+    }, [session, router, sessionId]);
     return (
         <>
             <Head>

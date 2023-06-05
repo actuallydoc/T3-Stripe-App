@@ -1,4 +1,4 @@
-import { Subcategory } from '@prisma/client'
+import type { Subcategory } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
 

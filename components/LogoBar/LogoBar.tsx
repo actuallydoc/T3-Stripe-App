@@ -1,11 +1,9 @@
-import CartElement from 'components/LogoBar/Elements/CartElement';
 import ProfileElement from 'components/LogoBar/Elements/ProfileElement';
 import { useSession, signIn } from 'next-auth/react'
-import React, { useState } from 'react'
+import React from 'react'
 import LocationButton from './Elements/LocationButton';
 import ContactElement from './Elements/ContactElement';
 import { CartSheet } from './CartModal/CartSheet';
-import { SheetTrigger } from 'components/ui/sheet';
 const NavUserItems = [
     {
         name: "Pomoč",
@@ -28,9 +26,8 @@ const NavUserItems = [
 
 ]
 
-export default function LogoBar({ setOpenCart }: { setOpenCart: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function LogoBar() {
     const { data: sessionData } = useSession();
-    const [itemCount] = useState<number>(0)
     return (
         <div>
             <nav>

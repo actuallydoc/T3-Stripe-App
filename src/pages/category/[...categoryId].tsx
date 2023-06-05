@@ -5,9 +5,7 @@ import { RootState, shoppingCartSlice } from 'stores/shoppingCartStore';
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { CartItem } from 'types';
-import cart from '../cart';
-import Header from 'components/Subcategory/Header';
+import type { CartItem } from 'types';
 import Filter from 'components/Subcategory/Filter';
 
 
@@ -20,8 +18,8 @@ export default function CategoryPage() {
         { name: categoryId as string[] },
         { enabled: router.isReady, refetchOnWindowFocus: false },
     )
-    //!TODO Fetch subcategories for the category from backend broken for now / use redux?
-    //! Probably mutation procedure is better for this
+    // TODO: Fetch subcategories for the category from backend broken for now / use redux?
+    // FIXME: Probably mutation procedure is better for this
     // if (!Array.isArray(categoryId)) {
     //     const { data: subcategories } = api.categories.getSubCategores.useQuery(
     //         { name: categoryId as string },
@@ -44,7 +42,7 @@ export default function CategoryPage() {
             setItems(items as CartItem[])
         }
     }, [isFetched, categoryProducts])
-    //!TODO Make category page with subcategories header and products grid , filter and sort options
+    // TODO Make category page with subcategories header and products grid , filter and sort options
     return (
         <div className='flex'>
             <div>
@@ -58,7 +56,7 @@ export default function CategoryPage() {
                 <div className='grid grid-cols-4 gap-4 pt-10'>
                     {items?.map((product: CartItem, index) => {
                         return (
-                            <ProductCard id={index} key={index} item={product} />
+                            <ProductCard key={index} item={product} />
                         )
                     }
                     )}

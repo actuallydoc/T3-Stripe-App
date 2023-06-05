@@ -5,12 +5,12 @@ import { useRouter } from 'next/router';
 import SubCategoryModal from './Modals/SubCategoryModal';
 
 
-
-const scrollToSection = () => {
-    const section = document.getElementById('novo-section')
-    console.log("Scrolling to section")
-    section?.scrollIntoView({ behavior: "smooth" })
-}
+// TODO : Add scroll to section
+// const scrollToSection = () => {
+//     const section = document.getElementById('novo-section')
+//     console.log("Scrolling to section")
+//     section?.scrollIntoView({ behavior: "smooth" })
+// }
 export default function Navbar() {
     const router = useRouter()
     const { data: categoryData } = api.categories.getCategories.useQuery(

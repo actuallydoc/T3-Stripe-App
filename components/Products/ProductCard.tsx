@@ -1,13 +1,13 @@
 import React from 'react'
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import type { CartItem } from 'types';
 import ProductAddButton from './ProductAddButton';
-export default function ProductCard({ id, item }: { id: number, item: CartItem }) {
-    const router = useRouter();
+export default function ProductCard({ item }: { item: CartItem }) {
+    // const router = useRouter();
     const handleProductClick = () => {
         console.log(item)
-        //!TODO Add id to the product and use it to get the product from the backend
+        // TODO Add id to the product and use it to get the product from the backend
         // router.push(`/product/${item.name}`).catch(err => console.log(err))
 
     }

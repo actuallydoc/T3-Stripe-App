@@ -1,11 +1,8 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import 'swiper/css';
 import Image from 'next/image';
-import CustomProduct from 'types';
-import Stripe from 'stripe';
+import type Stripe from 'stripe';
 
 export default function ProductImageSlider({ product }: { product: Stripe.Product }) {
     return (
