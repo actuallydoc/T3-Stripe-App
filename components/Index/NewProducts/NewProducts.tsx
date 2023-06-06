@@ -2,8 +2,6 @@ import React from 'react'
 import { api } from '@/utils/api'
 import { useRouter } from 'next/router'
 import type { CartItem } from 'types'
-
-
 export default function NewProducts() {
     const [products, setProducts] = React.useState<CartItem[]>([]);
     const router = useRouter();

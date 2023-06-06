@@ -22,13 +22,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 dispatch(shoppingCartSlice.actions.initializeCart([]));
                 localStorage.setItem("storeCart", JSON.stringify([]));
             }
+
         };
         fetchCart();
     }, [dispatch]);
     return (
         <div className='relative'>
             <ShippingBar />
-            <LogoBar setOpenCart={setOpenCart} />
+            <LogoBar />
             <Navbar />
             {openCart && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50 bg-gray-100 bg-opacity-40">

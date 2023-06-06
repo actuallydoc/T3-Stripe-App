@@ -66,6 +66,7 @@ export default function LogoBar() {
                                                 return <LocationButton key={index} />
                                             }
                                         if ((item.name === "Prijava") && sessionData) {
+
                                             return <ProfileElement key={index} imageLink={sessionData?.user?.image as string} />
                                         } else if (item.name === "Registracija") {
                                             return null;

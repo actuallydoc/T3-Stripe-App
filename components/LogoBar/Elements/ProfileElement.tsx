@@ -1,63 +1,44 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
-const ProfileButtons = [
-    {
-        name: 'Naročila',
-        link: '/narocila'
-    },
-    {
-        name: 'Uredi profil',
-        link: '/uredi-profil'
-    },
-    {
-        name: 'Odjava',
-        link: '/odjava'
-    }
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { Button } from 'components/ui/button'
+import { useRouter } from 'next/router'
 
-]
 export default function ProfileElement({ imageLink }: { imageLink: string }) {
-
-    const [profileDropDown, setProfileDropDown] = useState(false)
-    const { data: sessionData } = useSession();
-    const openDropDown = () => {
-        setProfileDropDown(!profileDropDown)
-    }
-
+    const router = useRouter()
     return (
-        <div className="relative">
-            <div>
-                <Image onClick={openDropDown} className='rounded-full cursor-pointer hover:scale-105 duration-300' src={imageLink} alt="Picture of the author" width={40} height={32} />
-            </div>
-            {profileDropDown && (
-                <div className="absolute right-0 top-10 w-auto h-auto mt-1 drop-shadow-2xl">
-                    <div className="bg-white rounded-xl shadow-xl slide-down-container">
-                        <div className="flex items-center gap-2 p-10">
-                            <div className='flex-col'>
-                                <div>
-                                    <p className="text-sm text-gray-500">Prijavljeni ste kot:</p>
-                                </div>
-                                <div>
-                                    <p className="text-sm text-gray-800">{sessionData?.user?.name}</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col w-32 gap-2">
-                                <div className='space-y-2 '>
-                                    {ProfileButtons.map((button, index) => {
-                                        if (button.name === 'Odjava') {
-                                            return <button onClick={() => void signOut()} key={index} className="bg-[#D9D9D9] text-white rounded-xl px-2 py-1 hover:bg-emerald-700 duration-300">{button.name}</button>
-                                        } else {
-                                            return <button key={index} className="bg-[#D9D9D9] text-white rounded-xl px-2 py-1 hover:emerald-700 duration-300 ">{button.name}</button>
-                                        }
-                                    })}
-                                </div>
-
-                            </div>
-                        </div>
+        <DropdownMenu>
+            <DropdownMenuTrigger><Image className='rounded-full cursor-pointer hover:scale-105 duration-300' src={imageLink} alt="Picture of the author" width={40} height={32} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <div className='flex-col bg-slate-200 text-black p-2 rounded-lg space-y-5'>
+                    <div>
+                        <Button variant={"outline"} onClick={() => {
+                            router.push('/profile').catch(err => console.log(err))
+                        }}>Moj profil </Button>
+                    </div>
+                    <div>
+                        <Button variant={"outline"} onClick={() => {
+                            router.push('/orders').catch(err => console.log(err))
+                        }}>Naročila</Button>
+                    </div>
+                    <div>
+                        <Button variant={"outline"} onClick={() => {
+                            router.push('/settings').catch(err => console.log(err));
+                        }}>Nastavitve</Button>
+                    </div>
+                    <div>
+                        <Button variant={"outline"} onClick={() => {
+                            void signOut()
+                        }
+                        }>Odjava</Button>
                     </div>
                 </div>
-            )}
-        </div>
+
+            </DropdownMenuContent>
+        </DropdownMenu>
+
 
     )
 }
