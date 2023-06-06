@@ -44,11 +44,11 @@ export default function CategoryPage() {
     }, [isFetched, categoryProducts])
     // TODO Make category page with subcategories header and products grid , filter and sort options
     return (
-        <div className='flex'>
+        <div className='flex pt-10'>
             <div>
                 <Filter />
             </div>
-            <div className='flex-col'>
+            <div className='flex text-center content-center ml-auto mr-10 '>
                 <div>
                     {/*Best way to get subcategories from db would be to store it in a redux state 😏*/}
                     {/* <Header subcategories={subcategories as Subcategory[]} /> */}
