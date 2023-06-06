@@ -11,8 +11,13 @@ import Filter from 'components/Subcategory/Filter';
 
 export default function CategoryPage() {
     const [items, setItems] = React.useState<CartItem[]>([]);
-    const router = useRouter();
-    const { categoryId } = router.query;
+    const router = useRouter(); const { categoryId } = router.query;
+    // Get the maximum price from the items state
+    const maxPrice: number = Math.max(...items.map((item: CartItem) => item.price))
+
+
+    const [price, setPrice] = React.useState<number[]>([maxPrice])
+    // Get the minimum price from the items state
     //Fetch items for the category from backend
     const { data: categoryProducts, isFetched } = api.category.getCategoryItems.useQuery(
         { name: categoryId as string[] },
@@ -26,8 +31,8 @@ export default function CategoryPage() {
     //         { enabled: router.isReady, refetchOnWindowFocus: false },
     //     )
     // }
-
     useEffect(() => {
+
         if (isFetched) {
             const items = categoryProducts?.categoryItems?.map((item: Product) => {
                 return {
@@ -42,6 +47,7 @@ export default function CategoryPage() {
             setItems(items as CartItem[])
         }
     }, [isFetched, categoryProducts])
+
     // TODO Make category page with subcategories header and products grid , filter and sort options
     return (
         <div className='flex pt-10'>
