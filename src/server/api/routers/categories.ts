@@ -11,7 +11,7 @@ export const categoriesRouter = createTRPCRouter({
             return ctx.prisma.category.findMany();
         }),
 
-    getSubCategores: publicProcedure.input(z.object({ name: z.string() })).query(({ ctx, input }) => {
+    getSubcategories: publicProcedure.input(z.object({ name: z.string() })).query(({ ctx, input }) => {
         return ctx.prisma.subcategory.findMany({
             where: {
                 category: {

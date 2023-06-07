@@ -5,7 +5,6 @@ import { Label } from 'components/ui/label'
 import { useState } from 'react'
 type SliderProps = React.ComponentProps<typeof Slider>
 export default function Filter({ className, ...props }: SliderProps) {
-
     const [slider, setSlider] = useState<number>(0)
     const handlePriceSlider = (value: number[]) => {
         console.log(value)

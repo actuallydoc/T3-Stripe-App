@@ -7,30 +7,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import type { CartItem } from 'types';
 import Filter from 'components/Subcategory/Filter';
-
-
+import Header from 'components/Subcategory/Header';
 export default function CategoryPage() {
     const [items, setItems] = React.useState<CartItem[]>([]);
     const router = useRouter(); const { categoryId } = router.query;
-    // Get the maximum price from the items state
-    const maxPrice: number = Math.max(...items.map((item: CartItem) => item.price))
-
-
-    const [price, setPrice] = React.useState<number[]>([maxPrice])
-    // Get the minimum price from the items state
-    //Fetch items for the category from backend
     const { data: categoryProducts, isFetched } = api.category.getCategoryItems.useQuery(
         { name: categoryId as string[] },
         { enabled: router.isReady, refetchOnWindowFocus: false },
     )
-    // TODO: Fetch subcategories for the category from backend broken for now / use redux?
-    // FIXME: Probably mutation procedure is better for this
-    // if (!Array.isArray(categoryId)) {
-    //     const { data: subcategories } = api.categories.getSubCategores.useQuery(
-    //         { name: categoryId as string },
-    //         { enabled: router.isReady, refetchOnWindowFocus: false },
-    //     )
-    // }
     useEffect(() => {
 
         if (isFetched) {
@@ -47,7 +31,6 @@ export default function CategoryPage() {
             setItems(items as CartItem[])
         }
     }, [isFetched, categoryProducts])
-
     // TODO Make category page with subcategories header and products grid , filter and sort options
     return (
         <div className='flex pt-10'>
@@ -57,7 +40,7 @@ export default function CategoryPage() {
             <div className='flex text-center content-center ml-auto mr-10 '>
                 <div>
                     {/*Best way to get subcategories from db would be to store it in a redux state 😏*/}
-                    {/* <Header subcategories={subcategories as Subcategory[]} /> */}
+                    <Header subcategories={subcategories} />
                 </div>
                 <div className='grid grid-cols-4 gap-4 pt-10'>
                     {items?.map((product: CartItem, index) => {

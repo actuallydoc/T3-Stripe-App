@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 export default function SubCategoryModal({ item }: { item: { name: string, link: string, navbarName: string } }) {
     const [categoryDropDown, setCategoryDropDown] = useState(false)
-    const { data: subCategoryData } = api.categories.getSubCategores.useQuery(
+    const { data: subCategoryData } = api.categories.getSubcategories.useQuery(
         { name: item.name },
         { enabled: true, refetchOnWindowFocus: false }
     )
